@@ -1,4 +1,21 @@
+.controls{
+    align-self: flex-end;
+    /* display:grid;
+    grid-template-rows: 200px; */
+    background-color: green;
+    /* width: max-content;
+    height: max-content; */
+    margin: 0 0 9% 9%;
+}
+.controls div{
+    border: 1px solid grey;
+    width: 140px;
+    height:50px;
+}
+.controls div .first{
+
+}
 .controls button{
-    width: 100px;
+    width: 80px;
     height:50px;
 }
