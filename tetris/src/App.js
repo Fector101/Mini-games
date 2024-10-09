@@ -15,7 +15,8 @@ function MyBtn({size,classes,text}){
 
   return (
           <div className={size+' gen-btn'+returnClass(classes)}>
-              <button></button>
+              {/* <button></button> */}
+              <div className='outer'><div className='inner'></div></div>
               {
                 Array.isArray(text) ?
                     text.map(each=><p key={nanoid()} >{each.toUpperCase()}</p>)

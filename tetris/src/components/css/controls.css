@@ -12,11 +12,37 @@
     text-align: center;
     color: white;
     font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
 }
 .gen-btn  > p{
     margin-top: 3px;
 }
-.gen-btn  > button{
+.gen-btn  > .outer{
+    height: 55px;
+    width:  55px;
+    background-color: yellow;
+    border-radius: 60%;
+    /* border-style: outset; */
+    /* border: none; */
+    border-color: yellow;
+    border-width: 4px;
+    display: flex;
+}
+.gen-btn  .inner{
+    align-self: center;
+    justify-self: center;
+    height: calc(100% - 10px);;
+    margin: auto;
+    width:  calc(100% - 10px);
+    border-radius: 60%;
+
+    background-color: red;
+    box-shadow: 1px 1px 1px red;
+}
+.gen-btn  > .outer{
     height: 55px;
     width:  55px;
     background-color: yellow;
@@ -26,7 +52,7 @@
     border-color: yellow;
     border-width: 4px;
 }
-.gen-btn.big >button{
+.gen-btn.big >.outer{
     height: 110px;
     width:  110px;
     border-width: 2px;
@@ -34,7 +60,7 @@
 .gen-btn.big >p{
     font-size: 15px;
 }
-.gen-btn.small >button{
+.gen-btn.small >.outer{
     height: 23px;
     width:  23px;
     border-width: 2px;
