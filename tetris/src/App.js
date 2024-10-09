@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid'
-import { returnClass } from './components/js/helper'
+import { returnClass,boxMath } from './components/js/helper'
+import {useEffect, useState} from 'react'
 import './components/css/App.css'
 import './components/css/controls.css'
 import './components/css/screen.css'
@@ -26,11 +27,50 @@ function MyBtn({size,classes,text}){
           </div>
         ) 
 }
+
+function GameScreen(){
+  let [boxes,setBoxes] = useState([])
+  useEffect(function(){
+    const container__ =document.querySelector('.screen .game')
+    boxMath(container__,setBoxes)
+    window.addEventListener('resize',()=>boxMath(container__,setBoxes))
+    return window.removeEventListener('resize',()=>boxMath(container__,setBoxes))
+  },[])
+    return (
+      <div className="game">
+        {[...boxes]}
+      </div>
+
+    )
+
+}
 function App() {
   const setting_btns=[['start','pause'],'sound','setting',['exit','game']]
   return (
     <div className="App">
-      <div className='screen'></div>
+      <div className='screen'>
+        <GameScreen/>
+        <div className="right-side">
+          
+          <div className="score-box">
+            <p>SCORE</p>
+            <p className="cur-score">0</p>
+            <p>HI-SCORE</p>
+            <p className="high-score">0</p>
+          </div>
+          
+          <div className="incoming-box"></div>
+
+          <div className='lvl_nd_speed'>
+            <p>LEVEL <span className='cur-lvl'>1</span></p>
+            <p>SPEED <span className='cur-speed'>1</span></p>
+          </div>
+          <div className='gif-box'></div>
+          <div className='info-box'>
+
+          </div>
+        </div>
+      </div>
       <div className='controls-case'>
 
         <section className="dir-case">

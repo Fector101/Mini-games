@@ -1,13 +1,82 @@
 .screen{
-    height: 100%;
-    width: 100%;
+flex: 1;
+/* height: 60%; */
     border: 3px inset rgb(197, 178, 178);
     border-radius: 3px;
-    width: calc(75%);
+    width: calc(85%);
     align-self: center;
     margin-top: 40px;
     margin-bottom: 10px;
     background-color: rgb(60, 187, 60);
     background-color: rgb(152, 186, 152);
     border-color:rgb(128, 155, 125);
+    display: flex;
+    overflow: hidden;
+}
+.screen .game{
+    /* flex: 1; */
+    width: 65%;
+    background-color: green;
+}
+.screen .right-side{
+    /* flex: 1; */
+    width: 35%;
+    font-size: 15px;
+    /* background-color: cornflowerblue; */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-block:10px;
+}
+.right-side p{
+    margin-top: 3px;
+}
+.incoming-box{
+    /* flex:1; */
+    margin-top: auto;
+    border: 1px solid grey;
+    width: 65%;
+    align-self: center;
+    height: 70px;
+}
+
+.lvl_nd_speed p{
+    margin-block: 5px;
+}
+.gif-box{
+    height: 60px;
+    background-color: red;
+    width: 80%;
+}
+.info-box{
+    height: 35px;
+    width: 80%;
+    background-color: green;
+}
+
+/* Container with fixed width and height */
+.game{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* gap: 2px; */
+    border: 1px solid black; 
+    padding: 1px;
+    overflow: hidden;
+
+}
+
+/* Each grid item */
+.box {
+    background-color: rgb(0, 0, 0);
+    border: 2px inset transparent;
+    display: flex;
+    justify-content: center;
+    --size:20px;
+    width: var(--size);
+    height: var(--size);
+
+    align-items: center;
 }

@@ -10,8 +10,6 @@
     }
     body > #root,.App{
       width: 360px;
-
-      /* background-color: rgb(60, 187, 60); */
       border-radius: 5px;
     }
     .controls-case{
