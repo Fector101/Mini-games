@@ -1,24 +1,25 @@
-import logo from './logo.svg';
+import { nanoid } from 'nanoid'
+import { returnClass } from './components/js/helper';
 import './components/css/App.css';
 import './components/css/controls.css'
 /**
- * 
+ *  Creates App Generic Button
+ * @param {string} size - The size of the Button.
+ * @param {number} classes - classes set the parent element class.
+ * @param {string} text - this the button text.
+ * @returns {Element} A react Element
  */
-function returnClass(str_or_list){
-  if(!str_or_list){return ''}
-  else if (typeof str_or_list === 'string'){
-    return ' '+str_or_list
-  }
-  else if (Array.isArray(str_or_list)){
-    return ' '+ str_or_list.join(' ')
-  }
-}
 function MyBtn({size,classes,text}){
 
   return (
-          <div class={'gen-btn'+returnClass(classes)}>
-              <div></div>
-              <p>{text}</p>
+          <div className={size+' gen-btn'+returnClass(classes)}>
+              <button></button>
+              {
+                Array.isArray(text) ?
+                    text.map(each=><p key={nanoid()} >{each.toUpperCase()}</p>)
+                :<p>{text.toUpperCase()}</p>
+              }
+              
           </div>
         ) 
 }
@@ -29,42 +30,23 @@ function App() {
 
       <div className='controls-case'>
 
-        <div clasName="dir-case">
+        <section className="dir-case">
           <div className="first"><MyBtn text='up / level'/></div>
           <div className="second"><MyBtn text={['left','prev game']} size='mid'/><MyBtn text={['right','next game']} size='mid'/></div>
           <div className="third"><MyBtn text="down / speed" size='mid'/></div>
-        </div>
+        </section>
 
-        <div className='settings-btns-rotate-btn-case'>
+        <section className='settings-btns-rotate-btn-case'>
           <div className='settings-case'>
-            {setting_btns.map(each=> <MyBtn size='small' text={each}/>)}
+            {setting_btns.map(each=> <MyBtn key={nanoid()} size='small' text={each}/>)}
           </div>
-          <MyBtn text={['rotate','direction']} size='big'/>
-        </div>
+          <MyBtn classes='rotate-btn-case' text={['rotate','direction']} size='big'/>
+        </section>
         
       </div>
     </div>
-  );
+  )
 }
 
-
-const shitstain=()=>{(
-        <>
-          <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          </header>
-        </>)
-}
 
 export default App;

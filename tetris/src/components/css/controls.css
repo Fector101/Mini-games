@@ -1,21 +1,90 @@
-.controls{
+/* All Buttons Main case */
+.controls-case{
     align-self: flex-end;
-    /* display:grid;
-    grid-template-rows: 200px; */
-    background-color: green;
-    /* width: max-content;
-    height: max-content; */
-    margin: 0 0 9% 9%;
+    display:grid;
+    grid-template-columns:1fr 1fr; 
+    background-color: rgb(31, 33, 31);
+     width: 100%;
+    /* height: max-content; */
+    padding: 10px;
+    /* padding: 0 0 9% 9%; */
+    /* border:1px solid yellow; */
 }
-.controls div{
-    border: 1px solid grey;
-    width: 140px;
-    height:50px;
-}
-.controls div .first{
 
+/* Generic Button */
+.gen-btn{
+    text-align: center;
+    color: white;
+    font-size: 10px;
 }
-.controls button{
-    width: 80px;
-    height:50px;
+.gen-btn > button{
+    height: 60px;
+    width: 60px;
+    background-color: yellow;
+    border-radius: 60%;
+    /* border-style: outset; */
+    border-color: yellow;
+    border-width: 5px;
+    margin-bottom: 4px;
+}
+.gen-btn.big >button{
+    height: 120px;
+    width:  120px;
+    border-width: 2px;
+}
+.gen-btn.big >p{
+    font-size: 15px;
+}
+.gen-btn.small >button{
+    height: 30px;
+    width: 30px;
+    border-width: 2px;
+    border-color: rgba(100, 148, 237, 0.601);
+    background-color: rgb(100, 149, 237);
+}
+.gen-btn.small >p{
+    font-size: 9px;
+}
+
+/* Buttons to move Blocks */
+.dir-case{
+    --offset:5px;
+    /* background-color: purple; */
+}
+.dir-case .first,.dir-case .third{
+    position: relative;
+    left:var(--offset);
+}
+.dir-case .first{
+    top: 12px;
+}
+.dir-case .second{
+    display: flex;
+    width: calc(100% + var(--offset));
+    justify-content: space-between;
+    /* gap: 10px; */
+    /* background-color: green; */
+}
+.dir-case .third{
+    bottom: 15px;
+}
+
+/* Settings Buttons */
+.settings-btns-rotate-btn-case{
+    display: flex;
+    flex-direction: column;
+}
+.settings-case{
+    display: flex;
+    justify-content: space-between;
+    /* background-color: lightblue; */
+}
+
+/* Rotate Button */
+.rotate-btn-case{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

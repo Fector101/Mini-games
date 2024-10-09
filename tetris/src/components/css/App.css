@@ -1,22 +1,44 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body > #root{
+  height: 100%;
+  width: 100vw;
+  background-color: green;
+}
 
 .App{
-  width: 100vw;
-  height: 100vh;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
   display: flex;
-  /* text-align: center; */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
+/* 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -40,3 +62,4 @@
     transform: rotate(360deg);
   }
 }
+*/
