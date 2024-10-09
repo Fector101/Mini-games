@@ -7,11 +7,10 @@
 html, body {
   height: 100%;
 }
-
-body > #root{
+body > #root,.App{
   height: 100%;
-  width: 100vw;
-  background-color: green;
+  width: 100%;
+  background-color: rgb(31, 33, 31);
 }
 
 .App{
@@ -19,11 +18,9 @@ body > #root{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
-  height: 100%;
-  width: 100%;
   display: flex;
+  flex-direction: column;
 }
-
 
 /* 
 code {

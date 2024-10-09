@@ -1,0 +1,13 @@
+.screen{
+    height: 100%;
+    width: 100%;
+    border: 3px inset rgb(197, 178, 178);
+    border-radius: 3px;
+    width: calc(75%);
+    align-self: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    background-color: rgb(60, 187, 60);
+    background-color: rgb(152, 186, 152);
+    border-color:rgb(128, 155, 125);
+}
