@@ -1,0 +1,82 @@
+
+.tetris-blocks {
+    display: grid;
+    gap: 10px;
+}
+
+.block {
+    display: grid;
+    grid-template-columns: repeat(4, 20px);
+    gap: 4px;
+    
+}
+
+.block div {
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 2px outset rgba(0,0,0,.281);
+}
+
+/* I Block 
+i-block{
+  row-gap: 0 !important;
+  column-gap:0 !important;
+}*/
+.i-block div{
+  background: #6B967F;
+}
+
+/* O Block */
+.o-block {
+    grid-template-columns: repeat(2, 10px);
+    grid-template-rows: repeat(2, 10px);
+}
+.o-block div {
+    background-color: #f1c40f;
+}
+
+/* T Block */
+.t-block {
+    grid-template-columns: repeat(3, 10px);
+}
+.t-block div {
+    background-color: #9b59b6;background: #6B967F
+}
+
+/* L Block */
+.l-block {
+    grid-template-columns: repeat(2, 10px);
+    grid-template-rows: repeat(3, 10px);
+}
+.l-block div {
+    background-color: #e67e22;
+}
+
+/* J Block */
+.j-block {
+    grid-template-columns: repeat(2, 10px);
+    grid-template-rows: repeat(3, 10px);
+}
+.j-block div {
+    background-color: #3498db;
+}
+
+/* S Block */
+.s-block {
+    grid-template-columns: repeat(3, 10px);
+    grid-template-rows: repeat(2, 10px);
+}
+.s-block div {
+    background-color: #2ecc71;
+}
+
+/* Z Block */
+.z-block {
+    grid-template-columns: repeat(3, 10px);
+    grid-template-rows: repeat(2, 10px);
+}
+.z-block div {
+    background-color: #e74c3c;
+}

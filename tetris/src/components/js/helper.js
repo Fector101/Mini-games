@@ -17,13 +17,17 @@ export function boxMath(container,SetBoxes){
     
   if(!container)return
   const con_size=container.getBoundingClientRect()
-  const each_box_size=21
-  const rows = Math.trunc(con_size.height /each_box_size)||Math.trunc(container.clientHeight / 20)
-  const columns = Math.trunc(con_size.width / each_box_size)||Math.trunc(container.clientWidth / 20)
+  const a=(21*(313.78125 * 291))/(con_size.width*con_size.height)
+
+
+  const each_box_size=a
+  const rows = Math.trunc(con_size.height /each_box_size)   
+  const columns = Math.trunc(con_size.width / each_box_size)
   const totalCells = rows * columns;
   let boxes_=[]
+  
   for (let i = 1; i <= totalCells; i++) {
-      boxes_.push(<div className='box' key={nanoid()}></div>)
+      boxes_.push(<div className='box' style={{width:a+'px',height:a+'px'}} key={nanoid()}></div>)
   }
   SetBoxes(boxes_)
 }

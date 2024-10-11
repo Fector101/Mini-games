@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import './components/css/App.css'
 import './components/css/controls.css'
 import './components/css/screen.css'
+import './components/css/blocks.css'
 import './components/css/responsive.css'
 /**
  *  Creates App Generic Button
@@ -59,7 +60,9 @@ function App() {
             <p className="high-score">0</p>
           </div>
           
-          <div className="incoming-box"></div>
+          <div className="incoming-box">
+            
+          </div>
 
           <div className='lvl_nd_speed'>
             <p>LEVEL <span className='cur-lvl'>1</span></p>

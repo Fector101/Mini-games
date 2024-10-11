@@ -72,11 +72,8 @@ flex: 1;
 .box {
     background-color: rgb(0, 0, 0);
     border: 2px inset transparent;
-    display: flex;
-    justify-content: center;
     --size:20px;
     width: var(--size);
     height: var(--size);
-
-    align-items: center;
+    margin: 1px;
 }
