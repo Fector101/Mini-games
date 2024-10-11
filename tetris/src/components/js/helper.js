@@ -17,12 +17,14 @@ export function boxMath(container,SetBoxes){
     
   if(!container)return
   const con_size=container.getBoundingClientRect()
-  const a=(21*(313.78125 * 291))/(con_size.width*con_size.height)
+  const a=(23.515625 * 280.078125 * 291) / (con_size.width*con_size.height)
 
 
   const each_box_size=a
-  const rows = Math.trunc(con_size.height /each_box_size)   
-  const columns = Math.trunc(con_size.width / each_box_size)
+  const margin = 2 
+  const actual_size=each_box_size+margin
+  const rows = Math.trunc(con_size.height /actual_size)   
+  const columns = Math.trunc(con_size.width / actual_size)
   const totalCells = rows * columns;
   let boxes_=[]
   
