@@ -9,7 +9,7 @@
       background-color: rgb(157, 167, 157);
     }
     body > #root,.App{
-      /* width: 360px; */
+      width: 360px;
       border-radius: 5px;
     }
     .controls-case{
