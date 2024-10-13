@@ -18,7 +18,7 @@ export function boxMath(container,SetBoxes){
   if(!container)return
   // const con_size=container.getBoundingClientRect()
   const con_size={height:container.clientHeight,width:container.clientWidth}
-  console.log(con_size)
+  // console.log(con_size)
   // const box_size=(7 * 280.078125 * 291) / (con_size.width*con_size.height)
   const box_size =10 //Same width and height
   const margin = 2
@@ -26,7 +26,6 @@ export function boxMath(container,SetBoxes){
   const rows = Math.trunc(con_size.height /actual_size)   
   const columns = Math.trunc(con_size.width / actual_size)
   const totalCells = rows * columns;
-  console.log(totalCells)
   document.querySelector('.high-score').textContent=totalCells+' blocks'
   
   let boxes_=[]
