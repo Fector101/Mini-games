@@ -10,7 +10,7 @@ trash.html
 coverage
 
 # production
-/build
+tetris/build
 
 # misc
 .DS_Store

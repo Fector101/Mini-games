@@ -6,16 +6,19 @@ flex: 1;
     width: calc(85%);
     align-self: center;
     margin-top: 40px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     background-color: rgb(60, 187, 60);
     background-color: rgb(152, 186, 152);
     border-color:rgb(128, 155, 125);
     display: flex;
     overflow: hidden;
+    /* background-color: green; */
+
 }
 .screen .game{
     /* flex: 1; */
-    width: 65%;
+    width: calc(73% - 2px);
+    margin: 4px;
     background-color: green;
 }
 .screen .right-side{
@@ -58,23 +61,35 @@ flex: 1;
 
 /* Container with fixed width and height */
 .game{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    /* gap: 2px; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* justify-content: center; */
+    /* gap: px; */
     border: 1px solid black; 
     padding: 1px;
     overflow: hidden;
-    align-items: center;
-
+    /* align-items: ; */
+    position: relative;
+    /* gap: 1px; */
+    /* display: block; */
+    /* vertical-align: bottom; */
+    text-align:center;
+    font-size: 0;
 }
 
 /* Each grid item */
 .box {
+    display: inline-block;
+
     background-color:#00000038;
     border: 2px inset transparent;
-    --size:20px;
+    /* --size:10px;
     width: var(--size);
-    height: var(--size);
+    height: var(--size); */
+    border: 1px solid grey;
+    /* margin: 1.3px; */
+    /* margin: 0 1.5px; */
     margin: 1px;
+
+    font-size:0;
 }

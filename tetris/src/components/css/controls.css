@@ -1,5 +1,6 @@
 /* All Buttons Main case */
 .controls-case{
+    user-select: none;
     height: max-content;
     align-self: flex-end;
     display:grid;

@@ -7,8 +7,10 @@
 .block {
     display: grid;
     grid-template-columns: repeat(4, 20px);
-    gap: 4px;
-    
+    gap: 1px;
+    position:absolute;
+    top:  4px;
+    left: 4px;
 }
 
 .block div {
