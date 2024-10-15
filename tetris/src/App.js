@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid'
 import { returnClass,boxMath } from './components/js/helper'
-// import React from 'react'
 import {useEffect, useRef, useState} from 'react'
 import './components/css/App.css'
 import './components/css/controls.css'
