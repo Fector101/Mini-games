@@ -133,11 +133,9 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
           setY_(prevY => {
               let newY = prevY
               if (e.key === 'ArrowUp') {
-                  newY = prevY - px
-                  inBounds('y',-px)
+                  newY = inBounds('y',-px)? prevY - px :prevY
               } else if (e.key === 'ArrowDown') {
-                  inBounds('y',px)
-                  newY = prevY + px
+                  newY = inBounds('y',px)? prevY + px:prevY
               }
               // block.style.top = newY + 'px'
               return newY
@@ -146,11 +144,9 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
           setX_((prevX) => {
               let newX = prevX
               if (e.key === 'ArrowLeft') {
-                  inBounds('x',-px)
-                  newX = prevX - px
+                  newX = inBounds('x',-px) ? prevX - px : prevX
               }else if (e.key === 'ArrowRight') {
-                  inBounds('x',px)
-                  newX = prevX + px
+                  newX = inBounds('x',px) ? prevX + px : prevX
               }
               
               return newX
@@ -162,6 +158,7 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
     window.addEventListener('keydown', handleKeyUp)
     return () => window.removeEventListener('keydown', handleKeyUp)
     // console.log(e,this)
+  // eslint-disable-next-line
   },[])
   return(
     <div className='controls-case'>
