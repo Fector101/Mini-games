@@ -1,4 +1,5 @@
 import {nanoid} from 'nanoid'
+import { blocks } from './blocks_construct'
 /**
  *  Computes list to give string with space at front if str_or_list is not undefined
  * @param {string[]|string} str_or_list - classes set the parent element class.
@@ -20,7 +21,7 @@ export function boxMath(container,SetBoxes){
   const con_size={height:container.clientHeight,width:container.clientWidth}
   // console.log(con_size)
   // const box_size=(7 * 280.078125 * 291) / (con_size.width*con_size.height)
-  const box_size =10 //Same width and height
+  const box_size =15 //Same width and height
   const margin = 2
   const actual_size=box_size+margin
   const rows = Math.trunc(con_size.height /actual_size)   
@@ -34,3 +35,17 @@ export function boxMath(container,SetBoxes){
   }
   SetBoxes(boxes_)
 }
+
+export function randInt(start=0,end){
+  const gen = ()=> Math.trunc(Math.random() * end)
+  let int_= gen()
+  if(int_ < start){
+    randInt()
+  }
+  return int_
+}
+/**
+ * 
+ * @returns {string} Random string of an existing block.
+ */
+export const randBlockName=()=> blocks.keys[randInt(0,blocks.length)]

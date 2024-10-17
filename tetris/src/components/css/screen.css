@@ -18,45 +18,32 @@
 
 /* Container with fixed width and height */
 .game{
-    width: calc(73% - 2px);
+    width: calc(73% - 12px);
+    /* width:70%; */
     margin: 4px;
-    background-color: green;
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    /* justify-content: center; */
-    /* gap: px; */
-    /* gap: 1px; */
-    /* display: block; */
-    /* vertical-align: bottom; */
-    /* align-items: ; */
-    border: 1px solid black; 
+    background-color: rgba(6, 137, 6, 0.022);
     padding: 1px;
-    /* overflow: hidden; */
+    padding-top: 1.5px;
     position: relative;
     text-align:center;
     font-size: 0;
+    border: 1px inset  rgba(3, 70, 3, 0.409);
 }
 
 /* Each grid item */
 .box {
     display: inline-block;
-    background-color:#00000038;
-    border: 2px inset transparent;
-    /* --size:10px;
-    width: var(--size);
-    height: var(--size); */
-    border: 1px solid grey;
-    /* margin: 1.3px; */
-    /* margin: 0 1.5px; */
+    background-color:#26262638;
+    border: 1px inset rgba(0, 128, 0, 0.244);
     margin: 1px;
-    font-size:0;
 }
 
 
 .screen .right-side{
     /* flex: 1; */
     width: 35%;
-    font-size: 15px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 10px;
     /* background-color: cornflowerblue; */
     display: flex;
     flex-direction: column;

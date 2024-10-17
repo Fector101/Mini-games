@@ -6,9 +6,13 @@
     display:grid;
     grid-template-columns:1fr 1fr; 
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    padding-top: 15px;
+    font-style: italic;
+    
     /* Variables */
     --offset:5px;
+    
 }
 
 /* Generic Button */
@@ -19,6 +23,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    /* Variables */
+    --small-font:9px;
+    --big-font:15px;
     
 }
 .gen-btn  > p{
@@ -58,7 +66,7 @@
     border-width: 2px;
 }
 .gen-btn.big >p{
-    font-size: 15px;
+    font-size: var(--big-font);
 }
 .gen-btn.small >.outer{
     height: 23px;
@@ -74,12 +82,11 @@
     width:  calc(100% - 13px);
 }
 .gen-btn.small >p{
-    font-size: 9px;
+    font-size: var(--small-font);
 }
 
 /* Buttons to move Blocks */
-.dir-case{
-}
+
 .dir-case .first,.dir-case .third{
     position: relative;
     left:var(--offset);

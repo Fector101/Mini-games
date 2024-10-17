@@ -1,11 +1,12 @@
 import { nanoid } from 'nanoid'
-import { returnClass,boxMath } from './components/js/helper'
+import { returnClass,boxMath, randBlockName} from './components/js/helper'
 import {useEffect, useRef, useState} from 'react'
 import './components/css/App.css'
 import './components/css/controls.css'
 import './components/css/screen.css'
 import './components/css/blocks.css'
 import './components/css/responsive.css'
+import {blocks} from './components/js/blocks_construct.js'
 function isTouchDevice(){
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
@@ -46,10 +47,16 @@ function MyBtn({speed__,resetSpeed__,pressEvent,size,classes,text}){
           </div>
         ) 
 }
-
+function Block({type,top,left}){
+  return(
+    blocks[type](top,left)
+  )
+}
 function GameScreen({x_,y_}){
     let [boxes,setBoxes] = useState([])
+    let [block_str,setBlockStr] = useState(randBlockName())
     let timer = useRef()
+  
     
   useEffect(function(){
     const container__ =document.querySelector('.screen .game')
@@ -61,14 +68,10 @@ function GameScreen({x_,y_}){
     window.addEventListener('resize',resizeFun)
     return ()=>window.removeEventListener('resize',resizeFun)
   },[])
+  
     return (
       <div className="game">
-        <div className="block l-block" style={{top:y_+'px',left:x_+'px'}}>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+        <Block type={block_str} top={y_+'px'} left={x_+'px'}/>
         {[...boxes]}
       </div>
 
@@ -128,7 +131,7 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
       if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return
       // setTimeout(checkCollision,100)
       checkCollision()
-      const px = 12
+      const px = 17
       if(['ArrowUp','ArrowDown'].includes(e.key)){
           setY_(prevY => {
               let newY = prevY
@@ -185,10 +188,11 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
 
 
 function App() {
-  let [x,setX] = useState(3)
-  let [y,setY] = useState(3)
+  let [x,setX] = useState(4)
+  let [y,setY] = useState(2)
   let speed=useRef(1)
   
+
   useEffect(function(){
       const block = document.querySelector('.block')
       if(!block)return

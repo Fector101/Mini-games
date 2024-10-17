@@ -20,4 +20,8 @@ body > #root,.App{
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  
+  font-optical-sizing: auto;
+  /*font-weight: 400;
+  font-style: normal; */
 }
