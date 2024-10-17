@@ -1,5 +1,4 @@
 import {nanoid} from 'nanoid'
-import { blocks } from './blocks_construct'
 /**
  *  Computes list to give string with space at front if str_or_list is not undefined
  * @param {string[]|string} str_or_list - classes set the parent element class.
@@ -44,8 +43,3 @@ export function randInt(start=0,end){
   }
   return int_
 }
-/**
- * 
- * @returns {string} Random string of an existing block.
- */
-export const randBlockName=()=> blocks.keys[randInt(0,blocks.length)]

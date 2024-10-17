@@ -1,12 +1,13 @@
 import { nanoid } from 'nanoid'
-import { returnClass,boxMath, randBlockName} from './components/js/helper'
+import { returnClass,boxMath} from './components/js/helper'
 import {useEffect, useRef, useState} from 'react'
 import './components/css/App.css'
 import './components/css/controls.css'
 import './components/css/screen.css'
 import './components/css/blocks.css'
 import './components/css/responsive.css'
-import {blocks} from './components/js/blocks_construct.js'
+import {Block, randBlockName} from './components/js/blocks_construct.js'
+
 function isTouchDevice(){
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
@@ -47,14 +48,12 @@ function MyBtn({speed__,resetSpeed__,pressEvent,size,classes,text}){
           </div>
         ) 
 }
-function Block({type,top,left}){
-  return(
-    blocks[type](top,left)
-  )
-}
+
 function GameScreen({x_,y_}){
     let [boxes,setBoxes] = useState([])
-    let [block_str,setBlockStr] = useState(randBlockName())
+    let [block_str,setBlockStr] =  useState(randBlockName())
+    // let [block_str,setBlockStr] = useState('v_line')
+    // let [block_str,setBlockStr] = useState('shifted_cube_1')
     let timer = useRef()
   
     
@@ -66,12 +65,14 @@ function GameScreen({x_,y_}){
       timer.current=setTimeout(()=>boxMath(container__,setBoxes),500)
     }
     window.addEventListener('resize',resizeFun)
+    document.querySelector('.high-score').textContent=block_str
     return ()=>window.removeEventListener('resize',resizeFun)
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
   
     return (
       <div className="game">
-        <Block type={block_str} top={y_+'px'} left={x_+'px'}/>
+        <Block class_={block_str} top={y_+'px'} left={x_+'px'}/>
         {[...boxes]}
       </div>
 
@@ -172,14 +173,14 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
         <MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowLeft')} text={['left','prev game']} size='mid'/>
         <MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowRight')} text={['right','next game']} size='mid'/>
       </div>
-      <div className="third"><MyBtn  speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowDown')} text="down / speed" size='mid'/></div>
+      <div className="third"><MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowDown')} text="down / speed" size='mid'/></div>
     </section>
 
     <section className='settings-btns-rotate-btn-case'>
       <div className='settings-case'>
-        {setting_btns.map(each=> <MyBtn key={nanoid()} size='small' text={each}/>)}
+        {setting_btns.map(each=> <MyBtn speed__={speed_} resetSpeed__={()=>console.log('Bad Component')} pressEvent={()=>console.log('Very Bad Component')} key={nanoid()} size='small' text={each}/>)}
       </div>
-      <MyBtn classes='rotate-btn-case' text={['rotate','direction']} size='big'/>
+      <MyBtn classes='rotate-btn-case' speed__={speed_} resetSpeed__={()=>console.log('Bad Component')} pressEvent={()=>console.log('Very Bad Component')} text={['rotate','direction']} size='big'/>
     </section>
     
   </div>
@@ -188,8 +189,8 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
 
 
 function App() {
-  let [x,setX] = useState(4)
-  let [y,setY] = useState(2)
+  let [x,setX] = useState(3.5)
+  let [y,setY] = useState(2.5)
   let speed=useRef(1)
   
 
