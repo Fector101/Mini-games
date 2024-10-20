@@ -43,3 +43,8 @@ export function randInt(start=0,end){
   }
   return int_
 }
+
+
+export function isTouchDevice() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+}

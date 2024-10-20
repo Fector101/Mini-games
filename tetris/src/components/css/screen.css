@@ -13,7 +13,7 @@
     display: flex;
     overflow: hidden;
     /* background-color: green; */
-
+    position: relative;
 }
 
 /* Container with fixed width and height */
@@ -71,11 +71,11 @@
 }
 .gif-box{
     height: 60px;
-    background-color: red;
+    /* background-color: red; */
     width: 80%;
 }
 .info-box{
     height: 35px;
     width: 80%;
-    background-color: green;
+    /* background-color: green; */
 }
