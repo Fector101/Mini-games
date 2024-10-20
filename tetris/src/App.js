@@ -18,7 +18,7 @@ function isTouchDevice(){
  * @param {string} text - this the button text.
  * @returns {Element} A react Element
  */
-function MyBtn({speed__,resetSpeed__,pressEvent,size,classes,text}){
+function MovementBtn({speed__,resetSpeed__,pressEvent,size,classes,text}){
     let timer = useRef()
     function action(){
       pressedBtn(undefined,500/speed__.current)
@@ -49,9 +49,48 @@ function MyBtn({speed__,resetSpeed__,pressEvent,size,classes,text}){
         ) 
 }
 
-function GameScreen({x_,y_}){
+/**
+ *  Creates App Generic Button
+ * @param {string} size - The size of the Button.
+ * @param {string[]|string} classes - classes set the parent element class.
+ * @param {string} text - this the button text.
+ * @returns {Element} A react Element
+ */
+function MyBtn({pressEvent,size,classes,text}){
+    let timer = useRef()
+    let speed = useRef()
+    function action(){
+      pressedBtn(undefined,500/speed.current)
+      if (speed.current < 7 ){
+          speed.current +=0.6
+      }
+    }
+    function pressedBtn(_,ms=1000){
+      pressEvent()
+      // document.querySelector('.high-score').textContent=Math.random().toFixed(2)
+      timer.current = setTimeout(action,ms)
+    }
+    function raisedBtn(){
+      // resetSpeed__()
+      speed.current=1
+      clearTimeout(timer.current)
+    }
+    
+    return (
+          <div className={size+' gen-btn'+returnClass(classes)}>
+              <div onTouchStart={pressedBtn} onTouchEnd={raisedBtn} onMouseDown={ ()=>{!isTouchDevice()&&pressedBtn()}} onMouseUp={raisedBtn} className='outer'><div className='inner'></div></div>
+              {
+                Array.isArray(text) ?
+                    text.map(each=><p key={nanoid()} >{each.toUpperCase()}</p>)
+                :<p>{text.toUpperCase()}</p>
+              }
+              
+          </div>
+        ) 
+}
+
+function GameScreen({x_,y_,block}){
     let [boxes,setBoxes] = useState([])
-    let [block_str,setBlockStr] =  useState(randBlockName())
     // let [block_str,setBlockStr] = useState('v_line')
     // let [block_str,setBlockStr] = useState('shifted_cube_1')
     let timer = useRef()
@@ -65,14 +104,14 @@ function GameScreen({x_,y_}){
       timer.current=setTimeout(()=>boxMath(container__,setBoxes),500)
     }
     window.addEventListener('resize',resizeFun)
-    document.querySelector('.high-score').textContent=block_str
+    document.querySelector('.high-score').textContent=block
     return ()=>window.removeEventListener('resize',resizeFun)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
   
     return (
       <div className="game">
-        <Block class_={block_str} top={y_+'px'} left={x_+'px'}/>
+        <Block class_={block} top={y_+'px'} left={x_+'px'}/>
         {[...boxes]}
       </div>
 
@@ -168,12 +207,12 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
     <div className='controls-case'>
 
     <section className="dir-case">
-      <div className="first"><MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowUp')} text='up / level'/></div>
+      <div className="first"><MovementBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowUp')} text='up / level'/></div>
       <div className="second">
-        <MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowLeft')} text={['left','prev game']} size='mid'/>
-        <MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowRight')} text={['right','next game']} size='mid'/>
+        <MovementBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowLeft')} text={['left','prev game']} size='mid'/>
+        <MovementBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowRight')} text={['right','next game']} size='mid'/>
       </div>
-      <div className="third"><MyBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowDown')} text="down / speed" size='mid'/></div>
+      <div className="third"><MovementBtn speed__={speed_} resetSpeed__={resetSpeed_} pressEvent={()=>handleKeyUp('ArrowDown')} text="down / speed" size='mid'/></div>
     </section>
 
     <section className='settings-btns-rotate-btn-case'>
@@ -191,6 +230,9 @@ function ControlsCase({x_,y_,setX_,setY_,resetSpeed_,speed_}){
 function App() {
   let [x,setX] = useState(3.5)
   let [y,setY] = useState(2.5)
+  let [i,setI] = useState(5)
+  
+  let [block_str,setBlockStr] =  useState(randBlockName(i))
   let speed=useRef(1)
   
 
@@ -209,7 +251,7 @@ function App() {
   return (
     <div className="App">
       <div className='screen'>
-        <GameScreen x_={x} y_={y}/>
+        <GameScreen x_={x} y_={y} block={block_str} />
         <div className="right-side">
           
           <div className="score-box">
@@ -219,8 +261,8 @@ function App() {
             <p className="high-score">0</p>
           </div>
           
-          <div className="incoming-box">
-            
+          <div className="incoming-box" onClick={()=>{setI(o=>{let p = o+1;console.log(p);setBlockStr(randBlockName(p)); return p })}}>
+              <p style={{margin: '46% 0'}}>Next</p>
           </div>
 
           <div className='lvl_nd_speed'>

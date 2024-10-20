@@ -14,14 +14,17 @@ export function BLOCK_STRUCTURE({style,class_}){
  * The block's main name should be first 'right-arm arm'
  */
 const classes = [ 
-    "h-line", "v-line", "cube", "clockwise-l",
-     "anti-cw-l", "letter-t", "t-180 letter-t", "right-arm clockwise-l",
-     "left-arm anti-cw-l", "letter-z", "bad-z", "shifted-cube", 
-     "shifted-cube-1", "sword"
+    "letter-t", "letter-t-R","letter-t-R1","letter-t-R2",
+    "j","R j", "R1 j", "R2 j",
+    "right-arm","right-arm R","right-arm R1","right-arm R2",
+    "shifted-cube", "shifted-cube R", 
+    "shifted-cube-1", "shifted-cube-1 R",
+    "h-line", "v-line", 
+    "cube",
 ]
 export const Block = ({class_, top, left}) => <BLOCK_STRUCTURE style={{ top, left }} class_={class_}/>
 
 /**
  * @returns {string} Random string of an existing block.
  */
-export const randBlockName=()=> classes[randInt(0, classes.length)]
+export const randBlockName=(i='')=> typeof i === 'number'?classes[i]:classes[randInt(0, classes.length)]

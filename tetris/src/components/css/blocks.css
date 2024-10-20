@@ -4,7 +4,7 @@
     position:absolute;
     top:  4px;
     left: 4px;
-    /* background-color: cornflowerblue !important; */
+    /* background-color: cornflowerblue; */
     /* Variables */
     --size:15px;
     --gap:2px;
@@ -35,29 +35,6 @@
     grid-template-rows: repeat(2, var(--size));
 }
 
-/* clockwise-l Block */
-.clockwise-l {
-    grid-template-columns: repeat(3, var(--size));
-    grid-template-rows: repeat(2, var(--size));
-}
-.clockwise-l.right-arm{
-    transform: rotate(180deg);
-}
-
-/* anti-cw Block */
-.anti-cw-l {
-    grid-template-columns: repeat(3, var(--size));
-    grid-template-rows: repeat(2, var(--size));
-}
-.anti-cw-l div:last-child {
-    margin-left: 34px;
-}
-
-/* left-arm Block */
-.anti-cw-l.left-arm {
-    transform: rotate(180deg);
-}
-
 
 /* letter-t Block */
 .letter-t {
@@ -67,45 +44,119 @@
 .letter-t div:last-child {
     margin-left: 17px;
 }
+.letter-t-R{
+    grid-template-columns: repeat(1 var(--size));
+}
+.letter-t-R div{
+    margin-left: 17px;
+}
+.letter-t-R div:nth-child(1){
+    position: absolute;
+    margin-left: 0;
+    margin-top: 17px;
+}
+
 .letter-t.t-180 {
     transform: rotate(180deg);
 }
 
-/* letter-z Block */
-.letter-z{
-    grid-template-columns: repeat(2, var(--size));
-    width: calc((var(--size) * 4) - (var(--gap) * 5.5));
+.letter-t-R1{
+    grid-template-rows: repeat(1, var(--size));
 }
-.letter-z div:nth-child(3){margin-left: 17px;}
-.letter-z div:nth-child(4){margin-left: 17px;}
+.letter-t-R1 div:nth-child(1){
+    position: absolute;
+    margin-top: 0;
+    margin-left: 17px;
+}
+.letter-t-R1 div{
+    margin-top: 17px;
+    /* background-color: cornflowerblue; */
+}
+/* 
+.letter-t-R1{
+    grid-template-rows: repeat(2, var(--size));
+}
+.letter-t-R1 div:nth-child(1){
+    position: absolute;
+    margin-top: 17px;
+    margin-left: 17px;
+} */
 
-.bad-z{
+
+.letter-t-R2{
     grid-template-columns: repeat(2, var(--size));
-    width: calc((var(--size) * 4) - (var(--gap) * 5.5));
+}
+.letter-t-R2 div:nth-child(1){
+    position: absolute;
+    margin-top: 17px;}
+.letter-t-R2 div:nth-child(3){margin-top: 17px;}
+
+
+
+.j{
+    grid-template-columns: repeat(1, var(--size));
+    /* height: calc((var(--size) * 3)); */
+    height: calc((var(--size) * 3) +  4px);
+    width: calc((var(--size) * 2) + 2px);
+    background-color: transparent;
+}
+.j div{
+    margin-left: 17px;
+}
+.j div:nth-child(4){
+    margin-left: 0;
+    transform: translateY(-17px);
+}
+.R.j{
+    transform: translateX(9px) translateY(-9px) rotate(90deg);
+}
+.R1.j {
+    transform: rotate(180deg);
 
 }
-.bad-z div:nth-child(1){margin-left: 17px;}
-.bad-z div:nth-child(2){margin-left: 17px;}
+.R2.j {
+    transform: translateX(9px) translateY(-8px) rotate(270deg);
+}
 
+
+
+.right-arm{
+    grid-template-rows: repeat(1, var(--size));
+    width: calc((var(--size) * 4) - (var(--gap) * 5.5));
+    padding-top: 17px;
+}
+.right-arm div:nth-child(4){
+    margin-top: -17px;
+    margin-left: -17px;
+}
+.right-arm.R{
+    transform: translateY(8px) translateX(-8px) rotate(90deg);
+}
+.right-arm.R1{
+    transform: translateY(0) translateX(1px) rotate(180deg);
+    
+}
+.right-arm.R2{
+    transform: translateY(8.5px) translateX(-8px) rotate(270deg);
+}
 
 /* shifted-cube */
 .shifted-cube{
     grid-template-columns: repeat(2, var(--size));
+    background-color: transparent;
 }
 .shifted-cube div:nth-child(1){transform: translateY(17px);}
 .shifted-cube div:nth-child(3){margin-top: 17px;}
+.R.shifted-cube{
+    transform: translateX(9px) translateY(-9px) rotate(90deg);
+}
 
 .shifted-cube-1{
     grid-template-columns: repeat(2, var(--size));
+    background-color: transparent;
 }
 .shifted-cube-1 div:nth-child(2){transform: translateY(17px);}
 .shifted-cube-1 div:nth-child(4){margin-top: 17px;}
-
-
-.sword{
-    grid-template-columns: repeat(2, var(--size));
+.R.shifted-cube-1{
+    transform: translateX(9px) translateY(-9px) rotate(90deg);
 }
-.sword div:nth-child(1){
-    position: absolute;
-    margin-top: 17px;}
-.sword div:nth-child(3){margin-top: 17px;}
