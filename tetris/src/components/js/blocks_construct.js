@@ -14,14 +14,20 @@ export function BLOCK_STRUCTURE({style,class_}){
  * The block's main name should be first 'right-arm arm'
  */
 export const classes = [ 
-    "letter-t", "R letter-t","R1 letter-t","R2 letter-t",
-    "j","R j", "R1 j", "R2 j",
-    "right-arm","right-arm R","right-arm R1","right-arm R2",
-    "shifted-cube", "shifted-cube R", 
-    "shifted-cube-1", "shifted-cube-1 R",
-    "h-line", "v-line", 
-    "cube",
+        
+    
+    
 ]
+export const classes1={
+    first:["letter-t", "R letter-t","R1 letter-t","R2 letter-t"],
+    second:["j","R j", "R1 j", "R2 j"],
+    third:["right-arm","right-arm R","right-arm R1","right-arm R2"],
+    fourth:["shifted-cube", "shifted-cube R"],
+    fifth:["shifted-cube-1", "shifted-cube-1 R"],
+    sixth:["h-line", "v-line"],
+    seventh:["cube"]
+}
+
 export const Block = ({class_, top, left}) => <BLOCK_STRUCTURE style={{ top, left }} class_={class_}/>
 let i =-1
 /**
