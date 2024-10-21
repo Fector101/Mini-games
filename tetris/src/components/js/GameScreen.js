@@ -1,16 +1,21 @@
-import { useRef, useEffect, useState } from "react";
-import { nanoid } from "nanoid";
+import { useRef, useEffect, useState, startTransition } from "react";
 import Confetti from "react-confetti";
 import { randBlockName, classes, Block } from "./blocks_construct";
 import { boxMath, } from "./helper";
 
-export function GameScreen({ x_, y_, block, setBlockStr_ }) {
+export function GameScreen({ handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_}) {
     let [boxes, setBoxes] = useState([]);
     let timer = useRef();
     let [confetti_size, setSize] = useState({ width: 0, height: 0 });
     let [last, setLast] = useState(false);
+    let [ongoing,setOngoing] = useState(true)
 
-    useEffect(function(){ setLast(block === classes.at(-1)?true:false)}, [block] );
+    function startAnimation(){
+      if(!ongoing) return
+      console.log('once')
+      // setInterval(()=>handleKeyUp_('down'),speed_)
+    }
+    // useEffect(function(){ setLast(blocks_[] === classes.at(-1)?true:false)}, [blocks_] );
     useEffect(function(){
       const container__ = document.querySelector(".screen .game");
   
@@ -24,7 +29,8 @@ export function GameScreen({ x_, y_, block, setBlockStr_ }) {
         timer.current = setTimeout(() => boxMath(container__, setBoxes), 500);
       }
       window.addEventListener("resize", resizeFun);
-      document.querySelector(".high-score").textContent = block;
+      // document.querySelector(".high-score").textContent = block;
+      startAnimation()
       return () => window.removeEventListener("resize", resizeFun);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -38,19 +44,19 @@ export function GameScreen({ x_, y_, block, setBlockStr_ }) {
     }
     return (
       <div className="screen">
-        {last && (
-          <Confetti width={confetti_size.width} height={confetti_size.height} />
-        )}
+        {last && <Confetti width={confetti_size.width} height={confetti_size.height} />}
+
         <div className="game">
-          <Block class_={block} top={y_ + "px"} left={x_ + "px"} />
-          {[...boxes]}
+          {blocks_}
+          {boxes}
         </div>
+
         <div className="right-side">
           <div className="score-box">
             <p>SCORE</p>
             <p className="cur-score">0</p>
             <p>HI-SCORE</p>
-            <p className="high-score">{block}</p>
+            <p className="high-score">{}</p>
           </div>
   
           <div className="incoming-box" onClick={dev}>

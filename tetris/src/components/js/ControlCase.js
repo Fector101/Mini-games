@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { returnClass,isTouchDevice } from "./helper";
 /**
@@ -106,7 +106,7 @@ function MovementBtn({
   }
   
 
-export function ControlsCase({ x_, y_, setX_, setY_, resetSpeed_, speed_ }) {
+export function ControlsCase({ x_, y_, handleKeyUp_, resetSpeed_, speed_ }) {
     const setting_btns = [
       ["start", "pause"],
       "sound",
@@ -116,81 +116,10 @@ export function ControlsCase({ x_, y_, setX_, setY_, resetSpeed_, speed_ }) {
     // let [x,setX_] = useState(3)
     // let [y,setY_] = useState(3)
   
-    function checkCollision() {
-      const container__ = document.querySelector(".screen .game").getBoundingClientRect();
-      const block = document.querySelector(".screen .game .block").getBoundingClientRect();
-  
-      if (container__.x === block.x) {
-        console.log("Foul");
-      }
-      // console.log('case ' + container__.x, 'block '+block.x)
-    }
-    /**
-     *  Creates App Generic Button
-     * @param {string} coord - Can be 'x' or 'y'
-     * @param {Number} pixels_to_move - The current block position i.e 'top' and 'left' neg or pos, positive if going right and vice verse
-     * @returns {Boolean} a boolean that blah blah
-     */
-    function inBounds(coord = "", pixels_to_move = 0) {
-      // For dynamic screen size
-      const container__ = document.querySelector(".screen .game").getBoundingClientRect();
-      const block = document.querySelector(".screen .game .block").getBoundingClientRect();
-      console.log(container__.bottom,block.bottom+pixels_to_move)
-      // console.log('gotten value',new_value,'calc value',block.x+new_value)
-      // console.log(block.y+pixels_to_move, container__.bottom - block.height)
-      if ( coord === "x" && (block.x + pixels_to_move < container__.x || block.x + pixels_to_move > container__.right - block.width)
-      ) {
-        document.querySelector(".cur-score").textContent = "foul";
-        return false;
-      } else if ( coord === "y" && (block.y + pixels_to_move < container__.y || block.bottom + pixels_to_move > container__.bottom)) {
-        document.querySelector(".cur-score").textContent = "foul";
-        return false;
-      }
-  
-      // console.log('--------------------')
-      document.querySelector(".cur-score").textContent = "pass";
-      return true;
-    }
-    function handleKeyUp(e) {
-      const block = document.querySelector(".block");
-      if (!block) return;
-      if (typeof e === "string") {
-        let cup = e;
-        e = { key: cup };
-      }
-      // So No lag if function becomes larger
-      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key))
-        return;
-      // setTimeout(checkCollision,100)
-      checkCollision();
-      const px = 17;
-      if (["ArrowUp", "ArrowDown"].includes(e.key)) {
-        setY_((prevY) => {
-          let newY = prevY;
-          if (e.key === "ArrowUp") {
-            newY = inBounds("y", -px) ? prevY - px : prevY;
-          } else if (e.key === "ArrowDown") {
-            newY = inBounds("y", px) ? prevY + px : prevY;
-          }
-          // block.style.top = newY + 'px'
-          return newY;
-        });
-      } else if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
-        setX_((prevX) => {
-          let newX = prevX;
-          if (e.key === "ArrowLeft") {
-            newX = inBounds("x", -px) ? prevX - px : prevX;
-          } else if (e.key === "ArrowRight") {
-            newX = inBounds("x", px) ? prevX + px : prevX;
-          }
-  
-          return newX;
-        });
-      }
-    }
+    
     useEffect(function () {
-      window.addEventListener("keydown", handleKeyUp);
-      return () => window.removeEventListener("keydown", handleKeyUp);
+      window.addEventListener("keydown", handleKeyUp_);
+      return () => window.removeEventListener("keydown", handleKeyUp_);
       // console.log(e,this)
       // eslint-disable-next-line
     }, []);
@@ -201,7 +130,7 @@ export function ControlsCase({ x_, y_, setX_, setY_, resetSpeed_, speed_ }) {
             <MovementBtn
               speed__={speed_}
               resetSpeed__={resetSpeed_}
-              pressEvent={() => handleKeyUp("ArrowUp")}
+              pressEvent={() => handleKeyUp_("ArrowUp")}
               text="up / level"
             />
           </div>
@@ -209,14 +138,14 @@ export function ControlsCase({ x_, y_, setX_, setY_, resetSpeed_, speed_ }) {
             <MovementBtn
               speed__={speed_}
               resetSpeed__={resetSpeed_}
-              pressEvent={() => handleKeyUp("ArrowLeft")}
+              pressEvent={() => handleKeyUp_("ArrowLeft")}
               text={["left", "prev game"]}
               size="mid"
             />
             <MovementBtn
               speed__={speed_}
               resetSpeed__={resetSpeed_}
-              pressEvent={() => handleKeyUp("ArrowRight")}
+              pressEvent={() => handleKeyUp_("ArrowRight")}
               text={["right", "next game"]}
               size="mid"
             />
@@ -225,7 +154,7 @@ export function ControlsCase({ x_, y_, setX_, setY_, resetSpeed_, speed_ }) {
             <MovementBtn
               speed__={speed_}
               resetSpeed__={resetSpeed_}
-              pressEvent={() => handleKeyUp("ArrowDown")}
+              pressEvent={() => handleKeyUp_("ArrowDown")}
               text="down / speed"
               size="mid"
             />

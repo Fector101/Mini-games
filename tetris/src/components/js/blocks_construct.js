@@ -1,7 +1,7 @@
 import React from "react";
 import { randInt } from "./helper";
 
-export function BLOCK_STRUCTURE({style,class_}){
+function BLOCK_STRUCTURE({style,class_}){
     return (
         <div style={style} className={'block ' + class_.replaceAll('_','-')}>
             {[...Array(4).keys()].map(i=><div key={i}></div>)}
@@ -13,11 +13,7 @@ export function BLOCK_STRUCTURE({style,class_}){
 /**
  * The block's main name should be first 'right-arm arm'
  */
-export const classes = [ 
-        
-    
-    
-]
+export const classes = ['cube']
 export const classes1={
     first:["letter-t", "R letter-t","R1 letter-t","R2 letter-t"],
     second:["j","R j", "R1 j", "R2 j"],
