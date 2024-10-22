@@ -24,7 +24,8 @@ export const classes1={
  * The block's main name should be first 'right-arm arm'
  */
 // export const classes = Object.values(classes1).flat()
-export const classes = ['cube']
+export const classes = ['cube','h-line']
+// export const classes = ['cube']
 
 export const Block = ({class_, top, left}) => <BLOCK_STRUCTURE style={{ top, left }} class_={class_}/>
 let i =-1

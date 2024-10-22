@@ -77,18 +77,43 @@ function App() {
     const container__ = document.querySelector(".screen .game").getBoundingClientRect();
     const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1).getBoundingClientRect()
 
-    if ( coord === "x" && (current_block.x + pixels_to_move < container__.x || current_block.x + pixels_to_move > container__.right - current_block.width)
-    ) {
-      document.querySelector(".cur-score").textContent = "foul";
-      return false;
-    } else if ( coord === "y" && (current_block.y + pixels_to_move < container__.y || current_block.bottom + pixels_to_move > container__.bottom)) {
-      document.querySelector(".cur-score").textContent = "foul";
-      return false;
+    let state = true
+    function inScreen(){
+      if ( coord === "x" && (current_block.x + pixels_to_move < container__.x || current_block.x + pixels_to_move > container__.right - current_block.width)
+      ) {
+        document.querySelector(".cur-score").textContent = "foul";
+        return false;
+      } else if ( coord === "y" && (current_block.y + pixels_to_move < container__.y || current_block.bottom + pixels_to_move > container__.bottom)) {
+        document.querySelector(".cur-score").textContent = "foul";
+        return false;
+      }
+      
+      // console.log('--------------------')
+      document.querySelector(".cur-score").textContent = "pass";
+      return true;
     }
-
-    // console.log('--------------------')
-    document.querySelector(".cur-score").textContent = "pass";
-    return true;
+    
+    function notCollidingWithAnotherBlock(){
+      const all_blocks = Array.from(document.querySelectorAll('.block'))
+      all_blocks.pop()  // Removing element about to be checked
+      const all_blocks_Top =  all_blocks.map(e=>e.getBoundingClientRect().top)
+      if(all_blocks.length === 1 )return true
+      if ( coord === "x" && (current_block.x + pixels_to_move < container__.x || current_block.x + pixels_to_move > container__.right - current_block.width)
+      ) {
+        document.querySelector(".cur-score").textContent = "foul";
+        return false;
+      } else if ( coord === "y" &&  all_blocks_Top.some(top_v=> current_block.bottom + pixels_to_move > top_v)) {
+        console.log(all_blocks_Top,current_block.bottom)
+        document.querySelector(".cur-score").textContent = "foul";
+        return false;
+      }
+      
+      // console.log('--------------------')
+      document.querySelector(".cur-score").textContent = "pass";
+      return true;
+    }
+    state = notCollidingWithAnotherBlock() && inScreen()
+    return state
   }
   function ANOTHER_(){
     // const parent = document.querySelector('.screen .game')
