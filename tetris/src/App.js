@@ -14,11 +14,49 @@ function App() {
   let [x, setX] = useState('3px');
   let [y, setY] = useState('2.5px');
   let speed = useRef(1);
+  let rows_and_columns = useRef([]);
   let [blocks, setBlocks] = useState(()=>[<Block key={nanoid()} class_={randBlockName('dev')} top={y} left={x} />]);
   useEffect(function(){
     // setBlocks(old=>[...old,])
   },[x,y])
   // useEffect(function(){blocks.at(-1).props.top=y;blocks.at(-1).props.left=x;},[x,y])
+  function checkRow(){
+    const container = document.querySelector('.screen .game')
+    const boxes=Array.from(container.querySelectorAll('.box'))
+    const blocks=Array.from(container.querySelectorAll('.block'))
+    
+    // Check is there are blocks in same X
+    // Then Check the blocks each cell if in same x 
+    const in_same_X = blocks.filter(function(each){
+
+    })
+    const first_box= boxes[0].style.backgroundColor='red'
+    const last_box= boxes.at(-1).style.backgroundColor='yellow'
+
+    const all_cells_Y = blocks.map(function(each_block){
+      // List of each cell 'x'
+      const block_cells_Y= Array.from(each_block.querySelectorAll('.cell')).map(each_cell=>each_cell.getBoundingClientRect().y)
+      return block_cells_Y
+    })
+    function isEqualToWidth(){
+      console.log(all_cells_Y)
+      const y_axes_begin_occupied = [...new Set(...all_cells_Y)]
+      const y_axes = all_cells_Y.flat()
+      let stats= {}
+      y_axes_begin_occupied.forEach(each=>stats[each] = 0)
+      for(let i = 0; i < y_axes.length; i++){
+        const each = y_axes[i]
+        // console.log(each)
+        // stats[each] = stats[each] + 1
+        stats[each] += 1
+      }
+
+      // console.log([...new Set(...all_cells_Y)])
+      console.log(rows_and_columns)
+      console.log(stats)
+    }
+    isEqualToWidth()
+  }
   function checkCollision() {
     const container__ = document.querySelector(".screen .game").getBoundingClientRect();
     const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1).getBoundingClientRect()
@@ -62,7 +100,7 @@ function App() {
   }
   function handleKeyUp(e) {
     const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1)
-    console.log(current_block)
+    // console.log(current_block)
     // const block = blocks.at(-1)
     if (!current_block) return;
     if (typeof e === "string") {
@@ -83,14 +121,15 @@ function App() {
           newY = inBounds("y", -px) ? prevY - px : prevY;
         } else if (e.key === "ArrowDown") {
           newY = inBounds("y", px) ? prevY + px : prevY;
-          if(!inBounds('y',px)){
-            ANOTHER_()
-          }
+          
         }
         // console.log(block,newY)
         newY= newY+'px'
         current_block.style.top = newY
-        
+        if(e.key === "ArrowDown" && !inBounds('y',px)){
+          ANOTHER_()
+          checkRow()
+        }
         
         return newY;
       });
@@ -126,7 +165,7 @@ function App() {
   const resetSpeed = () =>  speed.current = 1;
   return (
     <div className="App">
-      <GameScreen handleKeyUp_={handleKeyUp} speed_={speed} x_={x} y_={y} blocks_={blocks} setBlockStr_={setBlocks} />
+      <GameScreen rows_and_columns_={rows_and_columns} handleKeyUp_={handleKeyUp} speed_={speed} x_={x} y_={y} blocks_={blocks} setBlockStr_={setBlocks} />
       <ControlsCase handleKeyUp_={handleKeyUp} speed_={speed} resetSpeed_={resetSpeed} x_={x} y_={y} setX_={setX} setY_={setY} />
     </div>
   );

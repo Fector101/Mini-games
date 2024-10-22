@@ -4,16 +4,12 @@ import { randInt } from "./helper";
 function BLOCK_STRUCTURE({style,class_}){
     return (
         <div style={style} className={'block ' + class_.replaceAll('_','-')}>
-            {[...Array(4).keys()].map(i=><div key={i}></div>)}
+            {[...Array(4).keys()].map(i=><div key={i} className="cell"></div>)}
         </div>
     )
     // return (<div></div> * 6)
 }
 
-/**
- * The block's main name should be first 'right-arm arm'
- */
-export const classes = ['cube']
 export const classes1={
     first:["letter-t", "R letter-t","R1 letter-t","R2 letter-t"],
     second:["j","R j", "R1 j", "R2 j"],
@@ -24,17 +20,23 @@ export const classes1={
     seventh:["cube"]
 }
 
+/**
+ * The block's main name should be first 'right-arm arm'
+ */
+// export const classes = Object.values(classes1).flat()
+export const classes = ['cube']
+
 export const Block = ({class_, top, left}) => <BLOCK_STRUCTURE style={{ top, left }} class_={class_}/>
 let i =-1
 /**
  * @returns {string} Random string of an existing block.
  */
 export function randBlockName(arg){
-    console.log(arg)
+    // console.log(arg)
     if(arg.includes('dev')){
         i=arg==='dev'?i+1:i-1
         if(i === classes.length){ i=0 }else if(i === -1){i=classes.length-1}
-        console.log(i)
+        // console.log(i)
         return classes[i]
     }else{
         return classes[randInt(0, classes.length)]

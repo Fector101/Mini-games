@@ -33,6 +33,7 @@ export function boxMath(container,SetBoxes){
       boxes_.push(<div className='box' style={{minWidth:box_size+'px',minHeight:box_size+'px',maxWidth:box_size+'px',maxHeight:box_size+'px'}} key={nanoid()}></div>)
   }
   SetBoxes(boxes_)
+  return [rows,columns]
 }
 
 export function randInt(start=0,end){

@@ -3,7 +3,7 @@ import Confetti from "react-confetti";
 import { randBlockName, classes, Block } from "./blocks_construct";
 import { boxMath, } from "./helper";
 
-export function GameScreen({ handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_}) {
+export function GameScreen({ rows_and_columns_,handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_}) {
     let [boxes, setBoxes] = useState([]);
     let timer = useRef();
     let [confetti_size, setSize] = useState({ width: 0, height: 0 });
@@ -12,7 +12,7 @@ export function GameScreen({ handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_
 
     function startAnimation(){
       if(!ongoing) return
-      console.log('once')
+      // console.log('once')
       // setInterval(()=>handleKeyUp_('down'),speed_)
     }
     // useEffect(function(){ setLast(blocks_[] === classes.at(-1)?true:false)}, [blocks_] );
@@ -23,10 +23,10 @@ export function GameScreen({ handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_
       const con = document.querySelector(".screen").getBoundingClientRect();
       setSize({ width: con.width, height: con.height})
   
-      boxMath(container__, setBoxes);
+      rows_and_columns_.current = boxMath(container__, setBoxes);
       function resizeFun() {
         clearTimeout(timer.current); // To prevent Lag
-        timer.current = setTimeout(() => boxMath(container__, setBoxes), 500);
+        timer.current = setTimeout(() => rows_and_columns_.current= boxMath(container__, setBoxes), 500);
       }
       window.addEventListener("resize", resizeFun);
       // document.querySelector(".high-score").textContent = block;
