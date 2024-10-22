@@ -39,21 +39,16 @@ function App() {
       return block_cells_Y
     })
     function isEqualToWidth(){
-      console.log(all_cells_Y)
-      const y_axes_begin_occupied = [...new Set(...all_cells_Y)]
+      const y_axes_begin_occupied = [...new Set(all_cells_Y.flat())]
       const y_axes = all_cells_Y.flat()
       let stats= {}
       y_axes_begin_occupied.forEach(each=>stats[each] = 0)
       for(let i = 0; i < y_axes.length; i++){
         const each = y_axes[i]
-        // console.log(each)
-        // stats[each] = stats[each] + 1
         stats[each] += 1
       }
-
-      // console.log([...new Set(...all_cells_Y)])
-      console.log(rows_and_columns)
-      console.log(stats)
+      // console.log(rows_and_columns)
+      // console.log(stats)
     }
     isEqualToWidth()
   }
@@ -75,15 +70,15 @@ function App() {
   function inBounds(coord = "", pixels_to_move = 0) {
     // For dynamic screen size
     const container__ = document.querySelector(".screen .game").getBoundingClientRect();
-    const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1).getBoundingClientRect()
-
+    const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1)
+    const cur_block_bounds = current_block.getBoundingClientRect()
     let state = true
     function inScreen(){
-      if ( coord === "x" && (current_block.x + pixels_to_move < container__.x || current_block.x + pixels_to_move > container__.right - current_block.width)
+      if ( coord === "x" && (cur_block_bounds.x + pixels_to_move < container__.x || cur_block_bounds.x + pixels_to_move > container__.right - cur_block_bounds.width)
       ) {
         document.querySelector(".cur-score").textContent = "foul";
         return false;
-      } else if ( coord === "y" && (current_block.y + pixels_to_move < container__.y || current_block.bottom + pixels_to_move > container__.bottom)) {
+      } else if ( coord === "y" && (cur_block_bounds.y + pixels_to_move < container__.y || cur_block_bounds.bottom + pixels_to_move > container__.bottom)) {
         document.querySelector(".cur-score").textContent = "foul";
         return false;
       }
@@ -94,18 +89,29 @@ function App() {
     }
     
     function notCollidingWithAnotherBlock(){
-      const all_blocks = Array.from(document.querySelectorAll('.block'))
+      const all_blocks = Array.from(document.querySelectorAll('.block')) // Except Current Block.
+      if(all_blocks.length === 1 )return true
       all_blocks.pop()  // Removing element about to be checked
       const all_blocks_Top =  all_blocks.map(e=>e.getBoundingClientRect().top)
-      if(all_blocks.length === 1 )return true
-      if ( coord === "x" && (current_block.x + pixels_to_move < container__.x || current_block.x + pixels_to_move > container__.right - current_block.width)
+      if ( coord === "x" && (cur_block_bounds.x + pixels_to_move < container__.x || cur_block_bounds.x + pixels_to_move > container__.right - cur_block_bounds.width)
       ) {
         document.querySelector(".cur-score").textContent = "foul";
         return false;
-      } else if ( coord === "y" &&  all_blocks_Top.some(top_v=> current_block.bottom + pixels_to_move > top_v)) {
-        console.log(all_blocks_Top,current_block.bottom)
+      } else if ( coord === "y" &&  all_blocks_Top.some(top_v=> cur_block_bounds.bottom + pixels_to_move > top_v)) {
+        let A1 = all_blocks.map(e=> parseFloat(e.style.left))
+        let A2 = all_blocks.map(e=> e.getBoundingClientRect().width + 2 ) // 2px is the margin
+        // Checking a range of values for tyhe right side
+        const min_range = parseFloat(current_block.style.left)
+        const max_range = parseFloat(current_block.style.left) + cur_block_bounds.width + 2
+        console.log('Meet Tallest Block.')
+        // console.log()
+        if(A1.some(e=> e >= min_range)  && A2.some(e=> e<=max_range)){   // This Means it right Under
+          console.log('Block Under.')
+          return false;
+        }
+        return true
+        // console.log(all_blocks_Top,cur_block_bounds.bottom)
         document.querySelector(".cur-score").textContent = "foul";
-        return false;
       }
       
       // console.log('--------------------')
@@ -119,7 +125,7 @@ function App() {
     // const parent = document.querySelector('.screen .game')
     setY('2.5px')
     setX('3px')
-    setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={'3px'} left={'2.5px'} />])
+    setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={'2.5px'} left={'3px'} />])
 
 
   }
