@@ -52,6 +52,7 @@ function App() {
   
   function ANOTHER_(){
     // const parent = document.querySelector('.screen .game')
+    document.querySelector('.block.current').classList.remove('current')
     setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
 
 

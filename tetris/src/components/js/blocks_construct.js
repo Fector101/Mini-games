@@ -3,7 +3,7 @@ import { randInt } from "./helper";
 
 function BLOCK_STRUCTURE({style,class_}){
     return (
-        <div style={style} className={'block ' + class_.replaceAll('_','-')}>
+        <div style={style} className={'block current ' + class_.replaceAll('_','-')}>
             {[...Array(4).keys()].map(i=><div key={i} className="cell"></div>)}
         </div>
     )
@@ -23,8 +23,8 @@ export const classes1={
 /**
  * The block's main name should be first 'right-arm arm'
  */
-// export const classes = Object.values(classes1).flat()
-export const classes = ['cube','h-line']
+export const classes = Object.values(classes1).flat()
+// export const classes = ['cube','h-line']
 // export const classes = ['cube']
 
 export const Block = ({class_, top, left}) => <BLOCK_STRUCTURE style={{ top, left }} class_={class_}/>

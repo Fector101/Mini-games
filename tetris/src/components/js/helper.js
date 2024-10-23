@@ -60,7 +60,7 @@ export function isTouchDevice() {
 export function inBounds(coord = "", pixels_to_move = 0) {
   // For dynamic screen size
   const container__ = document.querySelector(".screen .game").getBoundingClientRect();
-  const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1)
+  const current_block = document.querySelector(".game .block.current")
   const cur_block_bounds = current_block.getBoundingClientRect()
   let state = true
   function inScreen(){
@@ -79,9 +79,9 @@ export function inBounds(coord = "", pixels_to_move = 0) {
   }
   
   function notCollidingWithAnotherBlock(){
-	const all_blocks = Array.from(document.querySelectorAll('.block')) // Except Current Block.
-	if(all_blocks.length === 1 )return true
-	all_blocks.pop()  // Removing element about to be checked
+	const all_blocks = Array.from(document.querySelectorAll('.block:not(.current) .cell')) // All Blocks Except Current Block.
+	// const all_blocks = Array.from(document.querySelectorAll('.block:not(.current)')) // All Blocks Except Current Block.
+	if(all_blocks.length === 0 )return true
 	// Checking a range of values for tyhe right side
 	const min_range = parseFloat(current_block.style.left)
 	const max_range = parseFloat(current_block.style.left) + cur_block_bounds.width 
