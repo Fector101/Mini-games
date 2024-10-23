@@ -85,10 +85,8 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	// Checking a range of values for tyhe right side
 	const min_range = parseFloat(current_block.style.left)
 	const max_range = parseFloat(current_block.style.left) + cur_block_bounds.width 
-	const collidingLeft = B1 => B1 >= min_range && B1 <= max_range
-	const collidingRight = A1 => A1 >= min_range && A1 <= max_range
-	const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
 	let blocks_under=[]
+	
 	/**
 	 * @returns {Element}
 	 */
@@ -98,45 +96,88 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		if(parseFloat(block_right_under.style.top) > parseFloat(e.style.top)){
 		  block_right_under=e
 		}
-		if(cur_block_bounds.top >200){
-		  if(i===list.length -1){
-			console.log(block_right_under)
-		  }
-		}
 	  })
 	  return block_right_under
 	}
-	let willCollide=false
-	// all_blocks.forEach((each_block,i)=>{
-	for (let index = 0; index < all_blocks.length; index++) {
-	  const each_block = all_blocks[index]
-	  const h1 = parseFloat(each_block.style.top)
-	  const h2 = parseFloat(current_block.style.top)
-	  if(h1 <= h2){
-		continue
-	  }
-	  const a1=parseFloat(each_block.style.left)
-	  const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)
-	  
-	  willCollide = collidingLeft(b1) || collidingRight(a1) || collidingMiddle(a1,b1)
-	  if(willCollide){
-		blocks_under.push(each_block)
-	  }
-	  if(index===all_blocks.length - 1){
-		willCollide = Boolean(blocks_under.length)
-	  }        
+	let willCollideY=false
+	let willCollideX=false
+	function checkY(){
+		const collidingLeft = B1 => B1 >= min_range && B1 <= max_range
+		const collidingRight = A1 => A1 >= min_range && A1 <= max_range
+		const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
+
+		for (let index = 0; index < all_blocks.length; index++) {
+			const each_block = all_blocks[index]
+			const h1 = parseFloat(each_block.style.top)
+			const h2 = parseFloat(current_block.style.top)
+			if(h1 <= h2){	//Not Checking Elements Above or in Same Y of it.
+			  continue
+			}
+			const a1=parseFloat(each_block.style.left)
+			const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)
+			
+			willCollideY = collidingLeft(b1) || collidingRight(a1) || collidingMiddle(a1,b1)
+			if(willCollideY){
+			  blocks_under.push(each_block)
+			}
+		}
+		willCollideY = Boolean(blocks_under.length)
 	}
+	function checkX(){
+		const A2 = parseFloat(current_block.style.left) 
+		const B2 = parseFloat(current_block.style.left) + cur_block_bounds.width
+		
+		const A2_pxs_to_move = parseFloat(current_block.style.left) + pixels_to_move
+		const B2_pxs_to_move = parseFloat(current_block.style.left) + cur_block_bounds.width + pixels_to_move
+		
+		const min_range = cur_block_bounds.top
+		const max_range = cur_block_bounds.bottom
+
+		const canNotMoveRight = A1 => A1 > B2 && B2_pxs_to_move >= A1
+		const canNotMoveLeft = B1 => B1 < A2 && A2_pxs_to_move <= B1
+		const isInBtw = (each_bound)=>each_bound.top <= min_range && each_bound.bottom >= max_range
+		const isBtmInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
+		// const isTopInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
+		
+		let elements_at_side=[]
+		for (let index = 0; index < all_blocks.length; index++) {
+			// FIX Get the closest Next Element does'nt Check All Elements Right and Left
+			const each_block = all_blocks[index]
+			const each_bounds = each_block.getBoundingClientRect()
+
+			// const h1 = parseFloat(each_block.style.top)
+			// const h2 = parseFloat(current_block.style.top)
+			// if(h1 > h2 || h2 > h1){	// Not Checking Elements Below Or Above it.
+			//   continue
+			// }
+			if(isInBtw(each_bounds) || isBtmInSameAxesWithAnother(each_bounds)){
+				// if(pixels_to_move < 0){//Moving Block Left
+
+				// }else{// Moving Block Right
+
+				// }
+				console.log('checking...')
+				const a1=parseFloat(each_block.style.left)
+				const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)
+				console.log(canNotMoveRight(a1) ,'||', canNotMoveLeft(b1))
+				willCollideX = canNotMoveRight(a1) || canNotMoveLeft(b1)
+				
+			}
+			willCollideX = Boolean(elements_at_side.length)
+
+		}
+
+	}
+	coord === 'y' ? checkY() : checkX()
 
 
-
-	if ( coord === "x" && (cur_block_bounds.x + pixels_to_move < container__.x || cur_block_bounds.x + pixels_to_move > container__.right - cur_block_bounds.width) ) {
-	  document.querySelector(".cur-score").textContent = "foul";
+	if ( coord === "x" && willCollideX ) {
 	  return false;
-	} else if (coord === "y"  && willCollide) {// This Means it right Under
-		console.log('Will Collide.')
+	} else if (coord === "y"  && willCollideY) {// This Means it right Under
+		// console.log('Will Collide.')
 		const cur_btm=parseFloat(current_block.style.top) + cur_block_bounds.height + pixels_to_move +2
 		if(cur_btm > parseFloat(blockRightUnder().style.top)){  // Meet Tall Block
-			console.log('Tallest Block and Closest to Top')
+			// console.log('Tallest Block and Closest to Top')
 			return false
 		}
 		return true
