@@ -106,6 +106,7 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
 		const blockUnder = (cur_cell_below,down_block_x,down_block_width) =>{
 			// return current_block_cells_bounds.some((bounds,i)=>{
+			let cells = []//cells of the current_block that have cells under it
 			for (let i = 0; i < current_block_cells_bounds.length; i++) {
 				const bounds=current_block_cells_bounds[i]
 				const A1 = down_block_x
@@ -120,16 +121,22 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 				
 				// const isRightTip =() =>A1 <= A2 && A1 <= B2
 				// const isLeftTip =() => B1 >= A2 && B2 <= B1
-				
-				
 				if(isLeftTip()||isRightTip()){
 					// console.log(e,current_block_cells[dev]);
 					// console.log(isLeftTip(),'||',isRightTip())
-					console.log(current_block_cells[i])
-					return current_block_cells[i]
+					// console.log(current_block_cells[i])
+					cells.push(current_block_cells[i])
 					// break
 				}
 			}
+			// Finding Closest to bottom 
+			let lowest_cell = cells[0]
+			cells.forEach(each=> {
+				if(each.getBoundingClientRect().bottom > lowest_cell.getBoundingClientRect().bottom){
+					lowest_cell = each
+				}
+			})
+			return lowest_cell
 		}
 		const hasMeetTallest = (T1,B2_nd_pixels_to_move) => T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
 		// console.log(all_blocks)
