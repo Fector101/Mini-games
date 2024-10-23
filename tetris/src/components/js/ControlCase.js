@@ -105,8 +105,7 @@ function MovementBtn({
     );
   }
   
-
-export function ControlsCase({ x_, y_, handleKeyUp_, resetSpeed_, speed_ }) {
+export function ControlsCase({handleKeyUp_, resetSpeed_, speed_ }) {
     const setting_btns = [
       ["start", "pause"],
       "sound",

@@ -3,7 +3,7 @@ import Confetti from "react-confetti";
 import { randBlockName, classes, Block } from "./blocks_construct";
 import { boxMath, } from "./helper";
 
-export function GameScreen({ rows_and_columns_,handleKeyUp_, x_, y_, blocks_, setBlockStr_, speed_}) {
+export function GameScreen({ rows_and_columns_,handleKeyUp_,blocks_, setBlockStr_, speed_}) {
     let [boxes, setBoxes] = useState([]);
     let timer = useRef();
     let [confetti_size, setSize] = useState({ width: 0, height: 0 });

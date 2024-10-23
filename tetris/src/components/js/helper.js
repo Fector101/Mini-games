@@ -99,6 +99,12 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	  })
 	  return block_right_under
 	}
+	// function blockRightAtSide(){
+		// Use style.left to current_block and check other blocks  style.left to see which is closer
+		// if(pixels_to_move < 0){//Moving Block Left
+		// }else{// Moving Block Right
+		// }
+	// }
 	let willCollideY=false
 	let willCollideX=false
 	function checkY(){
@@ -141,21 +147,9 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		
 		let elements_that_will_collide_at_side=[]
 		for (let index = 0; index < all_blocks.length; index++) {
-			// FIX Get the closest Next Element does'nt Check All Elements Right and Left
 			const each_block = all_blocks[index]
 			const each_bounds = each_block.getBoundingClientRect()
-
-			// const h1 = parseFloat(each_block.style.top)
-			// const h2 = parseFloat(current_block.style.top)
-			// if(h1 > h2 || h2 > h1){	// Not Checking Elements Below Or Above it.
-			//   continue
-			// }
 			if(isInBtw(each_bounds) || isBtmInSameAxesWithAnother(each_bounds)){
-				// if(pixels_to_move < 0){//Moving Block Left
-
-				// }else{// Moving Block Right
-
-				// }
 				console.log('checking...')
 				const a1=parseFloat(each_block.style.left)
 				const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)

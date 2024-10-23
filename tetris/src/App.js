@@ -11,15 +11,12 @@ import { GameScreen } from "./components/js/GameScreen.js";
 import { inBounds } from "./components/js/helper.js";
 
 function App() {
-  let [x, setX] = useState('3px');
-  let [y, setY] = useState('2.5px');
+  let init_x= '3px'
+  let init_y = '2.5px'
   let speed = useRef(1);
   let rows_and_columns = useRef([]);
-  let [blocks, setBlocks] = useState(()=>[<Block key={nanoid()} class_={randBlockName('dev')} top={y} left={x} />]);
-  useEffect(function(){
-    // setBlocks(old=>[...old,])
-  },[x,y])
-  // useEffect(function(){blocks.at(-1).props.top=y;blocks.at(-1).props.left=x;},[x,y])
+  let [blocks, setBlocks] = useState(()=>[<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />]);
+  
   function checkRow(){
     const container = document.querySelector('.screen .game')
     const boxes=Array.from(container.querySelectorAll('.box'))
@@ -55,9 +52,7 @@ function App() {
   
   function ANOTHER_(){
     // const parent = document.querySelector('.screen .game')
-    setY('2.5px')
-    setX('3px')
-    setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={'2.5px'} left={'3px'} />])
+    setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
 
 
   }
@@ -75,28 +70,24 @@ function App() {
       return;
     const px = 17;
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
-      setY((oldY) => {
-        const prevY = parseFloat(oldY)
-        let newY = ''
-        if (e.key === "ArrowUp") {
-          newY = inBounds("y", -px) ? prevY - px : prevY;
-        } else if (e.key === "ArrowDown") {
-          newY = inBounds("y", px) ? prevY + px : prevY;
-          
-        }
-        // console.log(block,newY)
-        newY= newY+'px'
-        current_block.style.top = newY
-        if(e.key === "ArrowDown" && !inBounds('y',px)){
-          ANOTHER_()
-          checkRow()
-        }
-        
-        return newY;
-      });
+      const prevY = parseFloat(current_block.style.top)
+      let newY = ''
+      if (e.key === "ArrowUp") {
+        newY = inBounds("y", -px) ? prevY - px : prevY;
+      } else if (e.key === "ArrowDown") {
+        newY = inBounds("y", px) ? prevY + px : prevY;
+      }
+      // console.log(block,newY)
+      newY= newY+'px'
+      current_block.style.top = newY
+      if(e.key === "ArrowDown" && !inBounds('y',px)){
+        ANOTHER_()
+        checkRow()
+      }
+      
+      return newY;
     } else if (["ArrowLeft", "ArrowRight"].includes(e.key)) {
-      setX((oldX) => {
-        const prevX = parseFloat(oldX)
+        const prevX = parseFloat(current_block.style.left)
         let newX = ''
         if (e.key === "ArrowLeft") {
           newX = inBounds("x", -px) ? prevX - px : prevX;
@@ -106,28 +97,24 @@ function App() {
         newX= newX+'px'
         current_block.style.left = newX
         return newX;
-      });
     }
   }
 
 
   useEffect(function () {
-    const block = document.querySelector(".block");
-
-    if (!block) return;
-    block.style.top = y
-    block.style.left = x
-    window.addEventListener("keyup", (e) => {
+    const dev= (e) => {
       if (e.key === "k") { setBlocks(randBlockName("dev")) }if (e.key === "l") { setBlocks(randBlockName("dev1")) }
-    })
+    }
+    window.addEventListener("keyup",dev)
+    window.removeEventListener("keyup",dev)
 
     // eslint-disable-next-line
   }, []);
   const resetSpeed = () =>  speed.current = 1;
   return (
     <div className="App">
-      <GameScreen rows_and_columns_={rows_and_columns} handleKeyUp_={handleKeyUp} speed_={speed} x_={x} y_={y} blocks_={blocks} setBlockStr_={setBlocks} />
-      <ControlsCase handleKeyUp_={handleKeyUp} speed_={speed} resetSpeed_={resetSpeed} x_={x} y_={y} setX_={setX} setY_={setY} />
+      <GameScreen rows_and_columns_={rows_and_columns} handleKeyUp_={handleKeyUp} speed_={speed} blocks_={blocks} setBlockStr_={setBlocks} />
+      <ControlsCase handleKeyUp_={handleKeyUp} speed_={speed} resetSpeed_={resetSpeed}/>
     </div>
   );
 }
