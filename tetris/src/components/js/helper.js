@@ -139,7 +139,7 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		const isBtmInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
 		// const isTopInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
 		
-		let elements_at_side=[]
+		let elements_that_will_collide_at_side=[]
 		for (let index = 0; index < all_blocks.length; index++) {
 			// FIX Get the closest Next Element does'nt Check All Elements Right and Left
 			const each_block = all_blocks[index]
@@ -161,9 +161,9 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 				const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)
 				console.log(canNotMoveRight(a1) ,'||', canNotMoveLeft(b1))
 				willCollideX = canNotMoveRight(a1) || canNotMoveLeft(b1)
-				
+				if(willCollideX){elements_that_will_collide_at_side.push(each_block)}
 			}
-			willCollideX = Boolean(elements_at_side.length)
+			willCollideX = Boolean(elements_that_will_collide_at_side.length)
 
 		}
 
