@@ -79,7 +79,7 @@ export function inBounds(coord = "", pixels_to_move = 0) {
   }
   
   function notCollidingWithAnotherBlock(){
-	const all_blocks = Array.from(document.querySelectorAll('.block:not(.current) .cell')) // All Blocks Except Current Block.
+	const all_blocks = Array.from(document.querySelectorAll('.block:not(.current)')) // All Blocks Except Current Block.
 	// const all_blocks = Array.from(document.querySelectorAll('.block:not(.current)')) // All Blocks Except Current Block.
 	if(all_blocks.length === 0 )return true
 	// Checking a range of values for tyhe right side
