@@ -14,7 +14,8 @@ function BLOCK_STRUCTURE({style,class_}){
             //     else if(index === ){}
             //     else if(index === ){}
             // }
-            return <div key={i} className={`cell ${pos}`}></div>}
+            return <div key={i} className={`cell`}></div>}
+            // return <div key={i} className={`cell ${pos}`}></div>}
             )}
         </div>
     )
@@ -23,10 +24,10 @@ function BLOCK_STRUCTURE({style,class_}){
 
 // No Block Name should have 'R', 'R' is the Rotate Keyword.
 export const classes1={
-    // first:["letter-t", "letter-t-R","letter-t-R1","letter-t-R2"],
-    // second:["j","j-R", "j-R1", "j-R2"],
-    // third:["right-arm","right-arm-R","right-arm-R1","right-arm-R2"],
-    // fourth:["shifted-cube", "shifted-cube-R"],
+    first:["letter-t", "letter-t-R","letter-t-R1","letter-t-R2"],
+    second:["j","j-R", "j-R1", "j-R2"],
+    third:["right-arm","right-arm-R","right-arm-R1","right-arm-R2"],
+    fourth:["shifted-cube", "shifted-cube-R"],
     fifth:["shifted-cube-1", "shifted-cube-1-R"],
     sixth:["h-line", "v-line"],
     seventh:["cube"]

@@ -61,6 +61,8 @@ export function inBounds(coord = "", pixels_to_move = 0) {
   // For dynamic screen size
   const container__ = document.querySelector(".screen .game").getBoundingClientRect();
   const current_block = document.querySelector(".game .block.current")
+  const current_block_cells = Array.from(document.querySelectorAll(".game .block.current .cell"))
+  const current_block_cells_bounds = current_block_cells.map(e=>e.getBoundingClientRect())
   const cur_block_bounds = current_block.getBoundingClientRect()
   let state = true
   function inScreen(){
@@ -88,18 +90,7 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	const max_range = parseFloat(current_block.style.left) + cur_block_bounds.width 
 	let blocks_under=[]
 	
-	/**
-	 * @returns {Element}
-	 */
-	function blockRightUnder(){
-	  let block_right_under=blocks_under[0]
-	  blocks_under.forEach((e,i,list)=>{
-		if(parseFloat(block_right_under.style.top) > parseFloat(e.style.top)){
-		  block_right_under=e
-		}
-	  })
-	  return block_right_under
-	}
+	
 	// function blockRightAtSide(){
 		// Use style.left to current_block and check other blocks  style.left to see which is closer
 		// if(pixels_to_move < 0){//Moving Block Left
@@ -109,27 +100,61 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	let willCollideY=false
 	let willCollideX=false
 	function checkY(){
-		// Now Used to check Under
+		// Used to checks For Tallest
 		const collidingLeft = B1 => B1 >= min_range && B1 <= max_range
 		const collidingRight = A1 => A1 >= min_range && A1 <= max_range
 		const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
-
-		const pinPoint = (T1,B2_nd_pixels_to_move) => T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
+		const isUnder = (e,down_block_x,down_block_width) =>{
+			return current_block_cells_bounds.some((bounds,dev)=>{
+				const A1 = down_block_x
+				const B1 = A1+down_block_width
+				const A2 =  bounds.x
+				const B2 =  A2 + bounds.width
+				// console.log(A1,B1)
+				// console.log(A2,B2)
+				// Blocks Already On Screen Tips
+				const isLeftTip =() => A1 <= B2 && B1 >= B2
+				const isRightTip =() =>B1 >= A2 && A1 <= A2
+				
+				// const isRightTip =() =>A1 <= A2 && A1 <= B2
+				// const isLeftTip =() => B1 >= A2 && B2 <= B1
+				
+				const d =isLeftTip()||isRightTip()
+				if(d){console.log(e,current_block_cells[dev]);console.log(isLeftTip(),'||',isRightTip())}
+				return d
+			})
+		}
+		const hasMeetTallest = (e,T1,B2_nd_pixels_to_move) => {
+			const d =T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
+			if(d){console.log(e);console.log(T1 <= B2_nd_pixels_to_move)}
+			return d}
+		// console.log(all_blocks)
 		for (let index = 0; index < all_blocks.length; index++) {
 			const each_block = all_blocks[index]
 			const each_block_bounds = each_block.getBoundingClientRect()
-			const block_down_top = each_block_bounds.top
-			const cur_block_btm = cur_block_bounds.bottom
-			if(block_down_top >= cur_block_btm){	//Not Checking Elements Above or in Same Y of it.
+			const top_axis_for_block_down = each_block_bounds.top
+
+			// Some Won't Check Blocks Above
+			const block_is_below = current_block_cells_bounds.some(each=>top_axis_for_block_down >= each.bottom)
+			
+			if(block_is_below){	//Not Checking Elements Above or in Same Y of it.
 				// console.log(block_down_top,cur_block_btm + pixels_to_move)
-				willCollideY = pinPoint(block_down_top,cur_block_btm + pixels_to_move)
+				// console.log(each_block_bounds.x,each_block_bounds.width)
+				if(isUnder(each_block,each_block_bounds.x,each_block_bounds.width)){ // Checks if block is right under
+					
+					willCollideY = current_block_cells_bounds.some((each_cell,dev)=>hasMeetTallest(current_block_cells[dev],top_axis_for_block_down,each_cell.bottom + pixels_to_move))
+				}else{
+					willCollideY=false
+				}
 				// console.log(willCollideY)
-			}else{
-				willCollideY=false
 			}
+			
 			if(willCollideY){ blocks_under.push(each_block) }
 		}
 		// console.log(blocks_under)
+		// willCollideY = false
+		
+		
 		willCollideY = Boolean(blocks_under.length)
 	}
 	function checkX(){
@@ -171,12 +196,6 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	if ( coord === "x" && willCollideX ) {
 	  return false;
 	} else if (coord === "y"  && willCollideY) {// This Means it right Under
-		// console.log('Will Collide.')
-		// const cur_btm=parseFloat(current_block.style.top) + cur_block_bounds.height + pixels_to_move +2
-		// if(cur_btm > parseFloat(blockRightUnder().style.top)){  // Meet Tall Block
-			// console.log('Tallest Block and Closest to Top')
-			// return false
-		// }
 		return false
 	}
 	
