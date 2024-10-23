@@ -104,8 +104,10 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		const collidingLeft = B1 => B1 >= min_range && B1 <= max_range
 		const collidingRight = A1 => A1 >= min_range && A1 <= max_range
 		const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
-		const isUnder = (e,down_block_x,down_block_width) =>{
-			return current_block_cells_bounds.some((bounds,dev)=>{
+		const blockUnder = (cur_cell_below,down_block_x,down_block_width) =>{
+			// return current_block_cells_bounds.some((bounds,i)=>{
+			for (let i = 0; i < current_block_cells_bounds.length; i++) {
+				const bounds=current_block_cells_bounds[i]
 				const A1 = down_block_x
 				const B1 = A1+down_block_width
 				const A2 =  bounds.x
@@ -119,15 +121,17 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 				// const isRightTip =() =>A1 <= A2 && A1 <= B2
 				// const isLeftTip =() => B1 >= A2 && B2 <= B1
 				
-				const d =isLeftTip()||isRightTip()
-				if(d){console.log(e,current_block_cells[dev]);console.log(isLeftTip(),'||',isRightTip())}
-				return d
-			})
+				
+				if(isLeftTip()||isRightTip()){
+					// console.log(e,current_block_cells[dev]);
+					// console.log(isLeftTip(),'||',isRightTip())
+					console.log(current_block_cells[i])
+					return current_block_cells[i]
+					// break
+				}
+			}
 		}
-		const hasMeetTallest = (e,T1,B2_nd_pixels_to_move) => {
-			const d =T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
-			if(d){console.log(e);console.log(T1 <= B2_nd_pixels_to_move)}
-			return d}
+		const hasMeetTallest = (T1,B2_nd_pixels_to_move) => T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
 		// console.log(all_blocks)
 		for (let index = 0; index < all_blocks.length; index++) {
 			const each_block = all_blocks[index]
@@ -140,9 +144,11 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 			if(block_is_below){	//Not Checking Elements Above or in Same Y of it.
 				// console.log(block_down_top,cur_block_btm + pixels_to_move)
 				// console.log(each_block_bounds.x,each_block_bounds.width)
-				if(isUnder(each_block,each_block_bounds.x,each_block_bounds.width)){ // Checks if block is right under
-					
-					willCollideY = current_block_cells_bounds.some((each_cell,dev)=>hasMeetTallest(current_block_cells[dev],top_axis_for_block_down,each_cell.bottom + pixels_to_move))
+				const cell_at_top = blockUnder(each_block,each_block_bounds.x,each_block_bounds.width)
+				if(cell_at_top){ // Checks if block is right under
+					// willCollideY = current_block_cells_bounds.some((each_cell,dev)=>hasMeetTallest(current_block_cells[dev],top_axis_for_block_down,each_cell.bottom + pixels_to_move))
+					console.log(cell_at_top)
+					willCollideY = hasMeetTallest(top_axis_for_block_down,cell_at_top.getBoundingClientRect().bottom + pixels_to_move)
 				}else{
 					willCollideY=false
 				}
