@@ -86,9 +86,6 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 	// const all_blocks = Array.from(document.querySelectorAll('.block:not(.current)')) // All Blocks Except Current Block.
 	if(all_blocks.length === 0 )return true
 	// Checking a range of values.
-	const min_range = parseFloat(current_block.style.left)
-	const max_range = parseFloat(current_block.style.left) + cur_block_bounds.width 
-	let blocks_under=[]
 	
 	
 	// function blockRightAtSide(){
@@ -96,37 +93,25 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 		// if(pixels_to_move < 0){//Moving Block Left
 		// }else{// Moving Block Right
 		// }
-	// }
+		// }
 	let willCollideY=false
 	let willCollideX=false
 	function checkY(){
-		// Used to checks For Tallest
-		const collidingLeft = B1 => B1 >= min_range && B1 <= max_range
-		const collidingRight = A1 => A1 >= min_range && A1 <= max_range
-		const collidingMiddle = (A1,B1) => A1 < min_range && B1 >= max_range
-		const blockUnder = (cur_cell_below,down_block_x,down_block_width) =>{
+		let blocks_under=[]
+		const blockUnder = (down_cell_x,down_cell_width) =>{
 			// return current_block_cells_bounds.some((bounds,i)=>{
 			let cells = []//cells of the current_block that have cells under it
+			// The Blocks Already On Screen and placed not currebt block Tips
+			const isLeftTip =(A1,B1,B2) => A1 <= B2 && B1 >= B2
+			const isRightTip =(A1,B1,A2) =>B1 >= A2 && A1 <= A2
 			for (let i = 0; i < current_block_cells_bounds.length; i++) {
 				const bounds=current_block_cells_bounds[i]
-				const A1 = down_block_x
-				const B1 = A1+down_block_width
+				const A1 = down_cell_x
+				const B1 = A1+down_cell_width
 				const A2 =  bounds.x
 				const B2 =  A2 + bounds.width
-				// console.log(A1,B1)
-				// console.log(A2,B2)
-				// Blocks Already On Screen Tips
-				const isLeftTip =() => A1 <= B2 && B1 >= B2
-				const isRightTip =() =>B1 >= A2 && A1 <= A2
-				
-				// const isRightTip =() =>A1 <= A2 && A1 <= B2
-				// const isLeftTip =() => B1 >= A2 && B2 <= B1
-				if(isLeftTip()||isRightTip()){
-					// console.log(e,current_block_cells[dev]);
-					// console.log(isLeftTip(),'||',isRightTip())
-					// console.log(current_block_cells[i])
+				if(isLeftTip(A1,B1,B2)||isRightTip(A1,B1,A2)){
 					cells.push(current_block_cells[i])
-					// break
 				}
 			}
 			// Finding Closest to bottom 
@@ -139,64 +124,79 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 			return lowest_cell
 		}
 		const hasMeetTallest = (T1,B2_nd_pixels_to_move) => T1 <= B2_nd_pixels_to_move //Top_1 Bottom_2
-		// console.log(all_blocks)
 		for (let index = 0; index < all_blocks.length; index++) {
-			const each_block = all_blocks[index]
-			const each_block_bounds = each_block.getBoundingClientRect()
-			const top_axis_for_block_down = each_block_bounds.top
+			const each_cell = all_blocks[index]
+			const each_cell_bounds = each_cell.getBoundingClientRect()
+			const top_axis_for_cell_down = each_cell_bounds.top
 
 			// Some Won't Check Blocks Above
-			const block_is_below = current_block_cells_bounds.some(each=>top_axis_for_block_down >= each.bottom)
-			
+			const block_is_below = current_block_cells_bounds.some(each=>top_axis_for_cell_down >= each.bottom)
 			if(block_is_below){	//Not Checking Elements Above or in Same Y of it.
-				// console.log(block_down_top,cur_block_btm + pixels_to_move)
-				// console.log(each_block_bounds.x,each_block_bounds.width)
-				const cell_at_top = blockUnder(each_block,each_block_bounds.x,each_block_bounds.width)
+				const cell_at_top = blockUnder(each_cell_bounds.x,each_cell_bounds.width)
 				if(cell_at_top){ // Checks if block is right under
-					// willCollideY = current_block_cells_bounds.some((each_cell,dev)=>hasMeetTallest(current_block_cells[dev],top_axis_for_block_down,each_cell.bottom + pixels_to_move))
 					console.log(cell_at_top)
-					willCollideY = hasMeetTallest(top_axis_for_block_down,cell_at_top.getBoundingClientRect().bottom + pixels_to_move)
-				}else{
-					willCollideY=false
-				}
-				// console.log(willCollideY)
+					willCollideY = hasMeetTallest(top_axis_for_cell_down,cell_at_top.getBoundingClientRect().bottom + pixels_to_move)
+				}else{willCollideY=false}
 			}
-			
-			if(willCollideY){ blocks_under.push(each_block) }
+			if(willCollideY){ blocks_under.push(each_cell) }
 		}
-		// console.log(blocks_under)
-		// willCollideY = false
-		
-		
 		willCollideY = Boolean(blocks_under.length)
 	}
 	function checkX(){
-		const A2 = parseFloat(current_block.style.left) 
-		const B2 = parseFloat(current_block.style.left) + cur_block_bounds.width
+		const alreadyPlacedBlockAt_Left=(down_cell_left, falling_cell)=>down_cell_left < falling_cell.getBoundingClientRect().left
+		const alreadyPlacedBlockAt_Right=(down_cell_right, falling_cell)=>down_cell_right > falling_cell.getBoundingClientRect().right
+		const blockAtSide = (down_cell_left,down_cell_right,down_cell_top,down_cell_height) =>{
+		let cells = []
+		const isAtSide =(A1,B1,A2,B2) => A1 === A2 && B1 === B2
+		current_block_cells_bounds.forEach( (bounds, i) =>{
+			const A1 = down_cell_top
+			const B1 = A1 + down_cell_height
+			const A2 = bounds.top
+			const B2 = A1 + bounds.height
+			if(isAtSide(A1,B1,A2,B2)){
+				cells.push(current_block_cells[i])
+			}
+		})
+		let closest_cell = cells[0]
+		// console.log(cells)
+		cells.forEach(falling_cell=> {
+			console.log(falling_cell)
+			if(alreadyPlacedBlockAt_Left(down_cell_left, falling_cell) && falling_cell.getBoundingClientRect().left < closest_cell.getBoundingClientRect().left){
+				closest_cell=falling_cell
+			}else if(alreadyPlacedBlockAt_Right(down_cell_right, falling_cell) && falling_cell.getBoundingClientRect().right > closest_cell.getBoundingClientRect().right){	// Therefore it's coming from right
+				closest_cell=falling_cell
+			}
+			// const distanceFrmLeft =(right_of_dropped_cell,left_of_falling_cell)=> left_of_falling_cell - right_of_dropped_cell//Distance from left of falling cell to dropped cell
+			// const distanceFrmRight =(right_of_falling_cell,left_of_dropped_cell)=> left_of_dropped_cell - right_of_falling_cell//Distance from right of falling cell to dropped cell	
+		})
+		return closest_cell				
+		}
 		
-		const A2_pxs_to_move = parseFloat(current_block.style.left) + pixels_to_move
-		const B2_pxs_to_move = parseFloat(current_block.style.left) + cur_block_bounds.width + pixels_to_move
-		
-		const min_range = cur_block_bounds.top
-		const max_range = cur_block_bounds.bottom
 
-		const canNotMoveRight = A1 => A1 > B2 && B2_pxs_to_move >= A1
-		const canNotMoveLeft = B1 => B1 < A2 && A2_pxs_to_move <= B1
-		const isInBtw = (each_bound)=>each_bound.top <= min_range && each_bound.bottom >= max_range
-		const isBtmInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
+		// const canNotMoveRight = A1 => A1 >= B2 && B2_pxs_to_move >= A1
+		const canNotMoveRight = (placed_cell_left,falling_cell_moving_pxs) => falling_cell_moving_pxs > placed_cell_left
+		const canNotMoveLeft = (placed_cell_right, falling_cell_moving_pxs) => falling_cell_moving_pxs < placed_cell_right
 		// const isTopInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
 		
 		let elements_that_will_collide_at_side=[]
 		for (let index = 0; index < all_blocks.length; index++) {
 			const each_block = all_blocks[index]
-			const each_bounds = each_block.getBoundingClientRect()
-			if(isInBtw(each_bounds) || isBtmInSameAxesWithAnother(each_bounds)){
+			const placed_cell_bounds = each_block.getBoundingClientRect()
+			const closest_falling_cell = blockAtSide(placed_cell_bounds.left,placed_cell_bounds.right,placed_cell_bounds.top,placed_cell_bounds.height)
+			if(closest_falling_cell){
+				// console.log(closest_falling_cell)
 				console.log('checking...')
-				const a1=parseFloat(each_block.style.left)
-				const b1=each_block.getBoundingClientRect().width + parseFloat(each_block.style.left)
-				console.log(canNotMoveRight(a1) ,'||', canNotMoveLeft(b1))
-				willCollideX = canNotMoveRight(a1) || canNotMoveLeft(b1)
-				if(willCollideX){elements_that_will_collide_at_side.push(each_block)}
+				if(alreadyPlacedBlockAt_Right(placed_cell_bounds.right,closest_falling_cell)){
+					willCollideX = canNotMoveRight(placed_cell_bounds.left,closest_falling_cell.getBoundingClientRect().right + pixels_to_move)
+					console.log('Old cell at Right')
+				}else{	// Therefore cell is at Left
+					console.log('Old cell at Left')
+					willCollideX = canNotMoveLeft(placed_cell_bounds.right,closest_falling_cell.getBoundingClientRect().left + pixels_to_move)
+				}
+				if(willCollideX){
+					elements_that_will_collide_at_side.push(each_block)
+					console.log(each_block, closest_falling_cell)
+				}
 			}
 			willCollideX = Boolean(elements_that_will_collide_at_side.length)
 
