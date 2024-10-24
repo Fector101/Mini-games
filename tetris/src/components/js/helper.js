@@ -82,18 +82,9 @@ export function inBounds(coord = "", pixels_to_move = 0) {
   
   function notCollidingWithAnotherBlock(){
 	const all_blocks = Array.from(document.querySelectorAll('.block:not(.current) .cell')) // All Blocks Except Current Block.
-	// console.log(all_blocks)
-	// const all_blocks = Array.from(document.querySelectorAll('.block:not(.current)')) // All Blocks Except Current Block.
 	if(all_blocks.length === 0 )return true
 	// Checking a range of values.
 	
-	
-	// function blockRightAtSide(){
-		// Use style.left to current_block and check other blocks  style.left to see which is closer
-		// if(pixels_to_move < 0){//Moving Block Left
-		// }else{// Moving Block Right
-		// }
-		// }
 	let willCollideY=false
 	let willCollideX=false
 	function checkY(){
@@ -134,7 +125,7 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 			if(block_is_below){	//Not Checking Elements Above or in Same Y of it.
 				const cell_at_top = blockUnder(each_cell_bounds.x,each_cell_bounds.width)
 				if(cell_at_top){ // Checks if block is right under
-					console.log(cell_at_top)
+					// console.log(cell_at_top)
 					willCollideY = hasMeetTallest(top_axis_for_cell_down,cell_at_top.getBoundingClientRect().bottom + pixels_to_move)
 				}else{willCollideY=false}
 			}
@@ -166,17 +157,12 @@ export function inBounds(coord = "", pixels_to_move = 0) {
 			}else if(alreadyPlacedBlockAt_Right(down_cell_right, falling_cell) && falling_cell.getBoundingClientRect().right > closest_cell.getBoundingClientRect().right){	// Therefore it's coming from right
 				closest_cell=falling_cell
 			}
-			// const distanceFrmLeft =(right_of_dropped_cell,left_of_falling_cell)=> left_of_falling_cell - right_of_dropped_cell//Distance from left of falling cell to dropped cell
-			// const distanceFrmRight =(right_of_falling_cell,left_of_dropped_cell)=> left_of_dropped_cell - right_of_falling_cell//Distance from right of falling cell to dropped cell	
 		})
 		return closest_cell				
 		}
 		
-
-		// const canNotMoveRight = A1 => A1 >= B2 && B2_pxs_to_move >= A1
 		const canNotMoveRight = (placed_cell_left,falling_cell_moving_pxs) => falling_cell_moving_pxs > placed_cell_left
 		const canNotMoveLeft = (placed_cell_right, falling_cell_moving_pxs) => falling_cell_moving_pxs < placed_cell_right
-		// const isTopInSameAxesWithAnother = (each_bound)=>each_bound.top <= max_range && each_bound.bottom >= min_range
 		
 		let elements_that_will_collide_at_side=[]
 		for (let index = 0; index < all_blocks.length; index++) {

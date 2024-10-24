@@ -5,18 +5,7 @@ function logic(block_name){}
 function BLOCK_STRUCTURE({style,class_}){
     return (
         <div style={style} className={'block current ' + class_.replaceAll('_','-')}>
-            {[...Array(4).keys()].map(i=>{
-            let pos = logic(class_)
-
-            // if(class_.includes('R')){
-            //     if(index === 0){}
-            //     else if(index === ){}
-            //     else if(index === ){}
-            //     else if(index === ){}
-            // }
-            return <div key={i} className={`cell`}></div>}
-            // return <div key={i} className={`cell ${pos}`}></div>}
-            )}
+            {[...Array(4).keys()].map(i=> <div key={i} className={`cell`}></div>)}
         </div>
     )
     // return (<div></div> * 6)

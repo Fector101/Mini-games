@@ -52,13 +52,17 @@ function App() {
   
   function ANOTHER_(){
     // const parent = document.querySelector('.screen .game')
+    
     document.querySelector('.block.current').classList.remove('current')
     setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
+    // setTimeout(()=>{
+    //   console.log('breathe of fresh air');
+    // },1500)
 
 
   }
   function handleKeyUp(e) {
-    const current_block = Array.from(document.querySelectorAll(".game .block")).at(-1)
+    const current_block = document.querySelector(".game .block.current")
     // console.log(current_block)
     // const block = blocks.at(-1)
     if (!current_block) return;
