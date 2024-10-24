@@ -53,14 +53,16 @@ function App() {
   function ANOTHER_(){
     // const parent = document.querySelector('.screen .game')
     
-    document.querySelector('.block.current').classList.remove('current')
-    setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
-    // setTimeout(()=>{
-    //   console.log('breathe of fresh air');
-    // },1500)
-
+    // setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
+    document.querySelector('.block.current').classList.add('delay')
+    setTimeout(()=>{
+      document.querySelector('.block.current').classList.remove('current','delay')
+      setBlocks(old=>[...old,<Block key={nanoid()} class_={randBlockName('dev')} top={init_y} left={init_x} />])
+      console.log('breathe of fresh air');
+    },500)
 
   }
+  
   function handleKeyUp(e) {
     const current_block = document.querySelector(".game .block.current")
     // console.log(current_block)
@@ -86,7 +88,7 @@ function App() {
       newY= newY+'px'
       current_block.style.top = newY
       if(e.key === "ArrowDown" && !inBounds('y',px)){
-        ANOTHER_()
+        if(!current_block.classList.contains('delay')){ANOTHER_()}
         checkRow()
       }
       
@@ -105,21 +107,11 @@ function App() {
     }
   }
 
-
-  useEffect(function () {
-    const dev= (e) => {
-      if (e.key === "k") { setBlocks(randBlockName("dev")) }if (e.key === "l") { setBlocks(randBlockName("dev1")) }
-    }
-    window.addEventListener("keyup",dev)
-    window.removeEventListener("keyup",dev)
-
-    // eslint-disable-next-line
-  }, []);
   const resetSpeed = () =>  speed.current = 1;
   return (
     <div className="App">
       <GameScreen rows_and_columns_={rows_and_columns} handleKeyUp_={handleKeyUp} speed_={speed} blocks_={blocks} setBlockStr_={setBlocks} />
-      <ControlsCase handleKeyUp_={handleKeyUp} speed_={speed} resetSpeed_={resetSpeed}/>
+      <ControlsCase setBlocks_={setBlocks} handleKeyUp_={handleKeyUp} speed_={speed} resetSpeed_={resetSpeed}/>
     </div>
   );
 }

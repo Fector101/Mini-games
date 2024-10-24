@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { returnClass,isTouchDevice } from "./helper";
+import { Block } from "./blocks_construct";
 /**
  *  Creates App Generic Button
  * @param {string} size - The size of the Button.
@@ -63,35 +64,12 @@ function MovementBtn({
    * @param {string} text - this the button text.
    * @returns {Element} A react Element
    */
-  function MyBtn({ pressEvent, size, classes, text }) {
-    let timer = useRef();
-    let speed = useRef();
-    function action() {
-      pressedBtn(undefined, 500 / speed.current);
-      if (speed.current < 7) {
-        speed.current += 0.6;
-      }
-    }
-    function pressedBtn(_, ms = 1000) {
-      pressEvent();
-      // document.querySelector('.high-score').textContent=Math.random().toFixed(2)
-      timer.current = setTimeout(action, ms);
-    }
-    function raisedBtn() {
-      // resetSpeed__()
-      speed.current = 1;
-      clearTimeout(timer.current);
-    }
+function MyBtn({ pressEvent, size, classes, text }) {
   
     return (
       <div className={size + " gen-btn" + returnClass(classes)}>
         <div
-          onTouchStart={pressedBtn}
-          onTouchEnd={raisedBtn}
-          onMouseDown={() => {
-            !isTouchDevice() && pressedBtn();
-          }}
-          onMouseUp={raisedBtn}
+          onMouseDown={pressEvent}
           className="outer"
         >
           <div className="inner"></div>
@@ -103,22 +81,62 @@ function MovementBtn({
         )}
       </div>
     );
-  }
+}
   
-export function ControlsCase({handleKeyUp_, resetSpeed_, speed_ }) {
+export function ControlsCase({handleKeyUp_, resetSpeed_, speed_, setBlocks_}) {
     const setting_btns = [
       ["start", "pause"],
       "sound",
       "setting",
       ["exit", "game"],
     ];
-    // let [x,setX_] = useState(3)
-    // let [y,setY_] = useState(3)
-  
-    
+
+    function rotateBlock(e){
+    if (typeof e === "string") { e = { key: e } }
+    if(e.key !== 'k')return
+
+    setBlocks_(old_blocks=>{
+      const last_block =  old_blocks.pop()
+      let new_blocks = [...old_blocks]
+      let classes_=structuredClone(last_block.props.class_)
+      const cur_block = document.querySelector('.block.current')
+      const position = {top: cur_block.style.top, left:cur_block.style.left}
+
+      let block_name=classes_.replaceAll('block','')
+      block_name = block_name.replaceAll('current','')
+      block_name = block_name.replaceAll('delay','')
+      block_name = block_name.replaceAll(' ','')
+      // if(block_name.includes('shifted-cube') || block_name.includes("h-line")){
+      if(['shifted-cube-1', 'shifted-cube', "h-line"].includes(block_name.replace('-R','')) ){ // For blocks that can only be rotated Once
+        if(classes_.includes('-R')){
+          block_name = block_name.replace('-R' ,'')
+        }else{ block_name += '-R' }
+      }else if(['cube'].includes(block_name)){
+        // pass
+      }else{// For block that can only be rotated Thrice
+        if(classes_.includes('-R2')){ 
+          block_name = block_name.replace('-R2','')
+        }
+        else if(classes_.includes('-R1')){
+          block_name = block_name.replace('-R1','-R2')
+        }
+        else if(classes_.includes('-R')){
+          block_name = block_name.replace('-R','-R1')
+        }else{ block_name += '-R' }
+      }
+      new_blocks.push(<Block key={nanoid()} class_={block_name} top={position.top} left={position.left} />)
+      
+      return new_blocks
+    })
+  }
     useEffect(function () {
       window.addEventListener("keydown", handleKeyUp_);
-      return () => window.removeEventListener("keydown", handleKeyUp_);
+      window.addEventListener("keyup",rotateBlock)
+      
+      return () => {
+        window.removeEventListener("keyup",rotateBlock)
+        window.removeEventListener("keydown", handleKeyUp_)
+      }
       // console.log(e,this)
       // eslint-disable-next-line
     }, []);
@@ -175,9 +193,7 @@ export function ControlsCase({handleKeyUp_, resetSpeed_, speed_ }) {
           </div>
           <MyBtn
             classes="rotate-btn-case"
-            speed__={speed_}
-            resetSpeed__={() => console.log("Bad Component")}
-            pressEvent={() => console.log("Very Bad Component")}
+            pressEvent={() => rotateBlock('k')}
             text={["rotate", "direction"]}
             size="big"
           />

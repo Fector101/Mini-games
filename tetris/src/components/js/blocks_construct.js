@@ -18,7 +18,7 @@ export const classes1={
     third:["right-arm","right-arm-R","right-arm-R1","right-arm-R2"],
     fourth:["shifted-cube", "shifted-cube-R"],
     fifth:["shifted-cube-1", "shifted-cube-1-R"],
-    sixth:["h-line", "v-line"],
+    sixth:["h-line", "h-line-R"],
     seventh:["cube"]
 }
 

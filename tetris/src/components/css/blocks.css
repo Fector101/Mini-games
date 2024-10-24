@@ -20,12 +20,13 @@
     /* border: 2px outset rgba(0,0,0,.281); */
 }
 
+/* h-line Block */
 .h-line {
     grid-template-columns: repeat(4, var(--size));
 }
 
-/* Straight Block */
-.v-line {
+/* Rotate h-line once */
+.h-line-R {
     grid-template-rows: repeat(4, var(--size));
     grid-template-columns: repeat(1, var(--size));
 }
